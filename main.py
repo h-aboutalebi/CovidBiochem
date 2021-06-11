@@ -2,7 +2,7 @@ from data_loader.balanced_sampler import BalancedBatchSampler
 from data_loader.data_extractor import Data_extractor
 from torch.utils.data import DataLoader
 
-from tcn import TCN
+from models.tcn import TCN
 from trainer.tcn_train import TCNTrainer
 from utils.file_manager import File_Manager
 from utils.files import get_trj_end_npy
