@@ -79,8 +79,6 @@ class TCN(nn.Module):
         self.decoder.weight.data.normal_(0, 0.01)
 
     def forward(self, input):
-        """Input ought to have dimension (N, C_in, L_in), where L_in is the seq_len; here the input is (N, L, C)"""
-        emb = self.drop(self.encoder(input))
-        y = self.tcn(emb.transpose(1, 2)).transpose(1, 2)
+        y = self.tcn(input)
         y = self.decoder(y)
         return y.contiguous()

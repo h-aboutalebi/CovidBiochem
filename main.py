@@ -1,12 +1,12 @@
 from data_loader.balanced_sampler import BalancedBatchSampler
 from data_loader.data_extractor import Data_extractor
 from torch.utils.data import DataLoader
-
 from models.tcn import TCN
 from trainer.tcn_train import TCNTrainer
 from utils.file_manager import File_Manager
 from utils.files import get_trj_end_npy
 from data_loader.dataset import TCNDataset
+
 import numpy as np
 import datetime
 import argparse
@@ -14,6 +14,8 @@ import os
 import random
 import torch
 import logging
+import torch.optim as optim
+
 logger = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser(description='TCN for Privacy Adversarial Attack')
@@ -25,6 +27,8 @@ parser.add_argument('--cuda_n', type=str, default="0", help='random seed (defaul
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Dataset Loading Setting ********************************************
+parser.add_argument('--action_shape', type=int, default=3,
+                    help='trajectory length (default: 10)')
 parser.add_argument('--trj_len', type=int, default=10,
                     help='trajectory length (default: 10)')
 parser.add_argument('--n_output', type=int, default=2,
@@ -49,7 +53,7 @@ parser.add_argument('--clip', type=float, default=0.35,
                     help='gradient clip, -1 means no clip (default: 0.35)')
 parser.add_argument('--epochs', type=int, default=100,
                     help='upper epoch limit (default: 100)')
-parser.add_argument('--lr', type=float, default=4,
+parser.add_argument('--lr', type=float, default=0.0003,
                     help='initial learning rate (default: 4)')
 parser.add_argument('--optim', type=str, default='SGD',
                     help='optimizer type (default: SGD)')
@@ -86,9 +90,6 @@ logger.info("=" * len(header))
 device = torch.device("cuda:" + args.cuda_n if True else "cpu")
 logger.info("device is set for: {}".format(device))
 
-
-
-
 if __name__ == '__main__':
 
     num_chans = [args.nhid] * (args.levels - 1) + [args.emsize]
@@ -96,7 +97,7 @@ if __name__ == '__main__':
     epochs=args.epochs
     k_size = args.ksize
     dropout = args.dropout
-    de = Data_extractor(trj_len=args.trj_len, action_shape=3, max_num_trj=100000)
+    de = Data_extractor(trj_len=args.trj_len, action_shape=args.action_shape, max_num_trj=100000)
     shadow_trj_ddpg_fp, shadow_end_ddpg_fp = get_trj_end_npy(
         "/home/hossein.aboutalebi/data/PrivAttack-Data/shadow/seed_5/DDPG_Robust_Hopper-v2_20_5")
     shadow_trj_ddpg_p = de.extract(shadow_trj_ddpg_fp, shadow_end_ddpg_fp)
@@ -114,7 +115,7 @@ if __name__ == '__main__':
                               sampler=BalancedBatchSampler(train_dataset))
 
     #loading the model
-    model = TCN(args.trj_len, args.n_output, num_chans, dropout=dropout, kernel_size=k_size)
-
-    trainer=TCNTrainer(train_loader)
+    model = TCN(args.action_shape, args.n_output, num_chans, dropout=dropout, kernel_size=k_size)
+    optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    trainer=TCNTrainer(train_loader,model,optimizer,device)
     trainer.run(epochs)
