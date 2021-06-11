@@ -13,4 +13,5 @@ class TCNTrainer:
         for epoch in range(epochs):
             for i, data in enumerate(self.trainloader, 0):
                 inputs, labels = data
+                print(inputs.shape)
 

@@ -32,7 +32,7 @@ class Data_extractor:
                 self.pad_trajectory(trajectory)
             index=end[i]+1
             final_list.append(np.array(trajectory))
-            random.shuffle(final_list)
+        random.shuffle(final_list)
         return np.array(final_list)
 
     def pad_trajectory(self,trajectory):
