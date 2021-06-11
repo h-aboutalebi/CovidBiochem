@@ -55,6 +55,8 @@ parser.add_argument('--epochs', type=int, default=100,
                     help='upper epoch limit (default: 100)')
 parser.add_argument('--lr', type=float, default=0.0003,
                     help='initial learning rate (default: 4)')
+parser.add_argument('--weight_decay', type=float, default=0,
+                    help='initial learning rate (default: 4)')
 parser.add_argument('--optim', type=str, default='SGD',
                     help='optimizer type (default: SGD)')
 args = parser.parse_args()
@@ -67,7 +69,7 @@ random.seed(args.seed)
 
 # *********************************** Logging Config ********************************************
 current_time = (str(datetime.datetime.now()).replace(" ", "#")).replace(":", "-")
-output_path=args.output_path
+output_path = args.output_path
 file_path_results = output_path + "/" + current_time
 File_Manager.set_file_path(file_path_results)
 if not os.path.exists(output_path):
@@ -91,10 +93,9 @@ device = torch.device("cuda:" + args.cuda_n if True else "cpu")
 logger.info("device is set for: {}".format(device))
 
 if __name__ == '__main__':
-
-    num_chans = [args.nhid] * (args.levels - 1) + [args.emsize]
+    num_chans = [args.nhid] * (args.levels - 1) + [args.n_output]
     batch_size = args.batch_size
-    epochs=args.epochs
+    epochs = args.epochs
     k_size = args.ksize
     dropout = args.dropout
     de = Data_extractor(trj_len=args.trj_len, action_shape=args.action_shape, max_num_trj=100000)
@@ -114,8 +115,9 @@ if __name__ == '__main__':
     train_loader = DataLoader(train_dataset, batch_size=batch_size, num_workers=4,
                               sampler=BalancedBatchSampler(train_dataset))
 
-    #loading the model
-    model = TCN(args.action_shape, args.n_output, num_chans, dropout=dropout, kernel_size=k_size)
+    # loading the model
+    model = TCN(args.action_shape*2, args.n_output, num_chans, dropout=dropout, kernel_size=k_size,trj_len=args.trj_len)
+    model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    trainer=TCNTrainer(train_loader,model,optimizer,device)
+    trainer = TCNTrainer(train_loader, model, optimizer, device)
     trainer.run(epochs)

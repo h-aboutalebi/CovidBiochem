@@ -40,6 +40,7 @@ class TemporalBlock(nn.Module):
             self.downsample.weight.data.normal_(0, 0.01)
 
     def forward(self, x):
+        x=x.float()
         out = self.net(x)
         res = x if self.downsample is None else self.downsample(x)
         return self.relu(out + res)
@@ -66,12 +67,12 @@ class TemporalConvNet(nn.Module):
 
 class TCN(nn.Module):
 
-    def __init__(self, input_size, output_size, num_channels,
+    def __init__(self, input_size, output_size, num_channels,trj_len,
                  kernel_size=2, dropout=0.3):
         super(TCN, self).__init__()
         self.tcn = TemporalConvNet(input_size, num_channels, kernel_size, dropout=dropout)
 
-        self.decoder = nn.Linear(num_channels[-1], output_size)
+        self.decoder = nn.Linear(num_channels[-1]*trj_len, output_size)
         self.init_weights()
 
     def init_weights(self):
@@ -80,5 +81,7 @@ class TCN(nn.Module):
 
     def forward(self, input):
         y = self.tcn(input)
+        # import pdb;pdb.set_trace()
+        y = y.view(y.size(0), -1)
         y = self.decoder(y)
         return y.contiguous()

@@ -16,11 +16,11 @@ class TCNTrainer:
         self.model=model
 
     def run(self,epochs):
-        criterion = nn.CrossEntropyLoss()
         for epoch in range(epochs):
             logger.info("epoch number: {}".format(epoch))
             for i, data in enumerate(self.trainloader, 0):
                 inputs, labels = data
+                inputs=inputs.to(self.device)
                 self.model.train()
                 self.optimizer.zero_grad()
                 outputs =self.model(inputs)
