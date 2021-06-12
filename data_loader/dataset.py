@@ -22,19 +22,3 @@ class TCNDataset(Dataset):
             label = 1
             x = self.positive_samples[math.floor(idx / 2)]
         return (x, label)
-
-    # def make_weights_for_balanced_classes(self):
-    #     count = [0,0]
-    #     for i in range(self.positive_samples.shape[0]):
-    #         count[1] += 1
-    #     for i in range(self.negative_samples.shape[0]):
-    #         count[0] += 1
-    #     weight_per_class = [0,0]
-    #     N = float(sum(count))
-    #     for i in range(2):
-    #         weight_per_class[i] = 1/float(count[i])
-    #     weight = [0] * self.__len__()
-    #     for i in range(self.__len__()):
-    #         _,label=self.__getitem__(i)
-    #         weight[i] = weight_per_class[label]
-    #     return weight

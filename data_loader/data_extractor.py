@@ -3,7 +3,7 @@ import random
 
 class Data_extractor:
 
-    def __init__(self,trj_len=10,action_shape=3,max_num_trj=100000):
+    def __init__(self,trj_len=10,action_shape=6,max_num_trj=100000):
         self.action_shape=action_shape
         self.trj_len=trj_len
         self.max_num_trj=max_num_trj
