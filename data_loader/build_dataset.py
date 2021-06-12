@@ -33,17 +33,17 @@ class BuildDataset:
                                   sampler=BalancedBatchSampler(train_dataset))
         return train_loader
 
-    def load_test(self):
-        de = Data_extractor(trj_len=self.trj_len, action_shape=self.action_shape, max_num_trj=self.max_num_trj)
+    def load_testset(self,max_num_trj=10000):
+        de = Data_extractor(trj_len=self.trj_len, action_shape=self.action_shape, max_num_trj=max_num_trj)
         shadow_trj_ddpg_fp, shadow_end_ddpg_fp = get_trj_end_npy(
-            "/home/hossein.aboutalebi/data/PrivAttack-Data/shadow/seed_75/DDPG_Robust_Hopper-v2_200_75")
+            "/home/hossein.aboutalebi/data/PrivAttack-Data/target/seed_75/DDPG_Robust_Hopper-v2_200_75")
         shadow_trj_ddpg_p = de.extract(shadow_trj_ddpg_fp, shadow_end_ddpg_fp)
         shadow_trj_bcq_f, shadow_end_bcq_f = get_trj_end_npy(
-            "/home/hossein.aboutalebi/data/PrivAttack-Data/shadow/seed_75/BCQ_target_Robust_Hopper-v2_200_75_1000000_compatible")
+            "/home/hossein.aboutalebi/data/PrivAttack-Data/target/seed_75/BCQ_target_Robust_Hopper-v2_200_75_1000000_compatible")
         shadow_trj_bcq = de.extract(shadow_trj_bcq_f, shadow_end_bcq_f)
         test_dataset_positive = de.create_dataset_TCN_ch(shadow_trj_ddpg_p, shadow_trj_bcq)
         shadow_trj_ddpg_fn, shadow_end_ddpg_fn = get_trj_end_npy(
-            "/home/hossein.aboutalebi/data/PrivAttack-Data/shadow/seed_700/DDPG_Robust_Hopper-v2_200_700")
+            "/home/hossein.aboutalebi/data/PrivAttack-Data/target/seed_700/DDPG_Robust_Hopper-v2_200_700")
         shadow_trj_ddpg_n = de.extract(shadow_trj_ddpg_fn, shadow_end_ddpg_fn)
         test_dataset_negative = de.create_dataset_TCN_ch(shadow_trj_ddpg_n, shadow_trj_bcq)
         test_dataset = TCNDataset(positive_samples=test_dataset_positive, negative_samples=test_dataset_negative)

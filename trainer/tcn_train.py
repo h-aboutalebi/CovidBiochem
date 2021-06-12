@@ -5,8 +5,9 @@ logger = logging.getLogger(__name__)
 
 class TCNTrainer:
 
-    def __init__(self,trainloader,model,optimizer,device):
+    def __init__(self,trainloader,test_loader,model,optimizer,device):
         self.trainloader=trainloader
+        self.test_loader=test_loader
         self.model=model
         self.device=device
         self.optimizer=optimizer
@@ -25,6 +26,7 @@ class TCNTrainer:
                 self.optimizer.zero_grad()
                 outputs =self.model(inputs)
                 loss = self.criterion(outputs, labels.to(self.device))
+                print(loss.item())
                 loss.backward()
                 self.optimizer.step()
 
