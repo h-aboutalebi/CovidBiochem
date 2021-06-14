@@ -32,7 +32,6 @@ class TCNTrainer:
                 self.optimizer.zero_grad()
                 outputs =self.model(inputs)
                 loss = self.criterion(outputs, labels.to(self.device))
-                print(loss.item())
                 metric.update(outputs, labels.to(self.device), loss)
                 loss.backward()
                 self.optimizer.step()

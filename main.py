@@ -1,5 +1,6 @@
 from data_loader.balanced_sampler import BalancedBatchSampler
 from data_loader.build_dataset import BuildDataset
+from tensorboardX import SummaryWriter
 from data_loader.data_extractor import Data_extractor
 from torch.utils.data import DataLoader
 from models.tcn import TCN
@@ -17,6 +18,8 @@ import torch
 import logging
 import torch.optim as optim
 
+from utils.tensor_writer import Tensor_Writer
+
 logger = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser(description='TCN for Privacy Adversarial Attack')
@@ -30,7 +33,7 @@ parser.add_argument('--seed', type=int, default=1111, help='random seed (default
 # *********************************** Dataset Loading Setting ********************************************
 parser.add_argument('--action_shape', type=int, default=3,
                     help='trajectory length (default: 10)')
-parser.add_argument('--max_num_trj', type=int, default=100000,
+parser.add_argument('--max_num_trj', type=int, default=100,
                     help='trajectory length (default: 10)')
 parser.add_argument('--trj_len', type=int, default=10,
                     help='trajectory length (default: 10)')
@@ -91,6 +94,17 @@ for k in args_keys:
     logger.info(s + ' ' * max((len(header) - len(s), 0)))
 logger.info("=" * len(header))
 
+
+# for tensorboard
+file_path_tensorboard = output_path + "/tensorboard/" + current_time
+if not os.path.exists(output_path + "/tensorboard"):
+    os.makedirs(output_path + "/tensorboard")
+try:
+    writer = SummaryWriter(logdir=file_path_tensorboard)
+except:
+    writer = SummaryWriter(file_path_tensorboard)
+Tensor_Writer.set_writer(writer)
+
 # *********************************** Environment Building ********************************************
 device = torch.device("cuda:" + args.cuda_n if True else "cpu")
 logger.info("device is set for: {}".format(device))
@@ -104,7 +118,7 @@ if __name__ == '__main__':
     buildDataset=BuildDataset(action_shape=args.action_shape,trj_len=args.trj_len,batch_size=args.batch_size,
                               max_num_trj=args.max_num_trj)
     train_loader = buildDataset.load_trainset()
-    test_loader = buildDataset.load_testset(max_num_trj=1000)
+    test_loader = buildDataset.load_testset(max_num_trj=args.max_num_trj)
 
     # loading the model
     model = TCN(args.action_shape*2, args.n_output, num_chans, dropout=dropout, kernel_size=k_size,trj_len=args.trj_len)

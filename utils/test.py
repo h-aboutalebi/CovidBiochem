@@ -37,7 +37,7 @@ class Test():
         total = 0
         for data in loader:
             images, labels = data
-            outputs = model.call(images.to(device))
+            outputs = model(images.to(device))
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels.to(device)).sum().item()
