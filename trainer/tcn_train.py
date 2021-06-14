@@ -1,5 +1,6 @@
 import torch.nn as nn
 import logging
+import time
 
 from utils.metric import Metric
 from utils.test import Test
@@ -13,6 +14,7 @@ class TCNTrainer:
         self.trainloader=trainloader
         self.testloader=test_loader
         self.test = Test()
+        Test.initial_time=time.time()
         self.model=model
         self.device=device
         self.optimizer=optimizer
