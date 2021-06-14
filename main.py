@@ -106,7 +106,7 @@ except:
 Tensor_Writer.set_writer(writer)
 
 # *********************************** Environment Building ********************************************
-device = torch.device("cuda:" + args.cuda_n if True else "cpu")
+device = torch.device("cuda:" + args.cuda_n if torch.cuda.is_available() else "cpu")
 logger.info("device is set for: {}".format(device))
 
 if __name__ == '__main__':
