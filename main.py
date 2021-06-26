@@ -27,15 +27,17 @@ parser = argparse.ArgumentParser(description='TCN for Privacy Adversarial Attack
 # *********************************** General Setting ********************************************
 parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/results_privacy',
                     help='output path for files produced by the agent')
+parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/50',
+                    help='output path for files produced by the agent')
 parser.add_argument('--cuda_n', type=str, default="0", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Dataset Loading Setting ********************************************
 parser.add_argument('--action_shape', type=int, default=3,
                     help='trajectory length (default: 10)')
-parser.add_argument('--max_num_trj', type=int, default=100,
+parser.add_argument('--max_num_trj', type=int, default=25000,
                     help='trajectory length (default: 10)')
-parser.add_argument('--trj_len', type=int, default=10,
+parser.add_argument('--trj_len', type=int, default=50,
                     help='trajectory length (default: 10)')
 parser.add_argument('--n_output', type=int, default=2,
                     help='number of hidden units per layer (default: 600)')
@@ -115,9 +117,9 @@ if __name__ == '__main__':
     epochs = args.epochs
     k_size = args.ksize
     dropout = args.dropout
-    buildDataset=BuildDataset(action_shape=args.action_shape,trj_len=args.trj_len,batch_size=args.batch_size,
+    buildDataset=BuildDataset(data_dir=args.data_dir,action_shape=args.action_shape,trj_len=args.trj_len,batch_size=args.batch_size,
                               max_num_trj=args.max_num_trj)
-    train_loader = buildDataset.load_trainset()
+    train_loader = buildDataset.load_trainset(max_num_trj=args.max_num_trj)
     test_loader = buildDataset.load_testset(max_num_trj=1000)
 
     # loading the model
