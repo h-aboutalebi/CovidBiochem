@@ -25,6 +25,7 @@ cd $seed_shadow1
 sshpass -p 'Mywoodencottage1' scp -r samin@beluga.calculquebec.ca:$url_seed_shadow1 .
 cd ..
 mkdir $seed_shadow2
+cd $seed_shadow2
 sshpass -p 'Mywoodencottage1' scp -r samin@beluga.calculquebec.ca:$url_seed_shadow2 .
 cd ../../target
 mkdir $seed_target1
