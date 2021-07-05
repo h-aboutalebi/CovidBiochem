@@ -6,7 +6,6 @@ from torch.utils.data import DataLoader
 from models.tcn import TCN
 from trainer.tcn_train import TCNTrainer
 from utils.file_manager import File_Manager
-from utils.files import get_trj_end_npy
 from data_loader.dataset import TCNDataset
 
 import numpy as np
@@ -45,6 +44,8 @@ parser.add_argument('--batch_size', type=int, default=16, metavar='N',
                     help='batch size (default: 16)')
 parser.add_argument('--num_workers', type=int, default=4,
                     help='number of workers for torchvision Dataloader')
+parser.add_argument("--seeds_shadow", nargs="+", default=[5, 100])
+parser.add_argument("--seeds_target", nargs="+", default=[75, 700])
 
 # *********************************** Model Setting ********************************************
 parser.add_argument('--dropout', type=float, default=0.45,
@@ -117,7 +118,7 @@ if __name__ == '__main__':
     epochs = args.epochs
     k_size = args.ksize
     dropout = args.dropout
-    buildDataset=BuildDataset(data_dir=args.data_dir,action_shape=args.action_shape,trj_len=args.trj_len,batch_size=args.batch_size,
+    buildDataset=BuildDataset(seeds_shadow=args.seeds_shadow,seeds_target=args.seeds_target,data_dir=args.data_dir,action_shape=args.action_shape,trj_len=args.trj_len,batch_size=args.batch_size,
                               max_num_trj=args.max_num_trj)
     train_loader = buildDataset.load_trainset(max_num_trj=args.max_num_trj)
     test_loader = buildDataset.load_testset(max_num_trj=1000)

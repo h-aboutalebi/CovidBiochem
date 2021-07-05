@@ -22,7 +22,7 @@ class Data_extractor:
         index = 0
         for i in range(len(end)):
             if(i+1>self.max_num_trj):
-                continue
+                break
             trajectory=[]
             for j in range(index,end[i]+1):
                 if(len(trajectory)>=self.trj_len):
