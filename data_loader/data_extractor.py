@@ -37,8 +37,9 @@ class Data_extractor:
 
     def pad_trajectory(self,trajectory):
         dif=self.trj_len-len(trajectory)
+        last_element=trajectory[-1]
         for i in range(dif):
-            trajectory.append(np.zeros(self.action_shape))
+            trajectory.append(last_element)
 
     def create_dataset_TCN_ch(self, trj1, trj2):
         return np.concatenate((trj1,trj2),axis=len(trj1.shape)-2)
