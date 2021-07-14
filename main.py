@@ -124,7 +124,7 @@ if __name__ == '__main__':
     test_loader = buildDataset.load_testset(max_num_trj=1000)
 
     # loading the model
-    model = TCN(args.action_shape*2, args.n_output, num_chans, dropout=dropout, kernel_size=k_size,trj_len=args.trj_len)
+    model = TCN(args.trj_len,args.action_shape*2, args.n_output, num_chans, dropout=dropout, kernel_size=k_size,trj_len=args.trj_len)
     model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     trainer = TCNTrainer(train_loader, test_loader,model, optimizer, device)

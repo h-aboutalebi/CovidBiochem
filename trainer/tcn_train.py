@@ -32,6 +32,7 @@ class TCNTrainer:
                 inputs=inputs.to(self.device)
                 self.model.train()
                 self.optimizer.zero_grad()
+                # import pdb;pdb.set_trace()
                 outputs =self.model(inputs)
                 loss = self.criterion(outputs, labels.to(self.device))
                 metric.update(outputs, labels.to(self.device), loss)

@@ -27,8 +27,8 @@ class TemporalBlock(nn.Module):
         self.relu2 = nn.ReLU()
         self.dropout2 = nn.Dropout(dropout)
 
-        self.net = nn.Sequential(self.conv1, self.chomp1, self.relu1, self.dropout1,
-                                 self.conv2, self.chomp2, self.relu2, self.dropout2)
+        self.net = nn.Sequential(self.conv1,  self.chomp1,self.relu1, self.dropout1,
+                                 self.conv2,  self.chomp2,self.relu2, self.dropout2)
         self.downsample = nn.Conv1d(n_inputs, n_outputs, 1) if n_inputs != n_outputs else None
         self.relu = nn.ReLU()
         self.init_weights()
@@ -43,6 +43,7 @@ class TemporalBlock(nn.Module):
         x=x.float()
         out = self.net(x)
         res = x if self.downsample is None else self.downsample(x)
+        # import pdb;pdb.set_trace()
         return self.relu(out + res)
 
 
@@ -67,12 +68,12 @@ class TemporalConvNet(nn.Module):
 
 class TCN(nn.Module):
 
-    def __init__(self, input_size, output_size, num_channels,trj_len,
+    def __init__(self, channel_size,input_size, output_size, num_channels,trj_len,
                  kernel_size=2, dropout=0.3):
         super(TCN, self).__init__()
-        self.tcn = TemporalConvNet(input_size, num_channels, kernel_size, dropout=dropout)
+        self.tcn = TemporalConvNet(channel_size, num_channels, kernel_size, dropout=dropout)
 
-        self.decoder = nn.Linear(num_channels[-1]*trj_len, output_size)
+        self.decoder = nn.Linear(num_channels[-1]*input_size, output_size)
         self.init_weights()
 
     def init_weights(self):
@@ -80,6 +81,7 @@ class TCN(nn.Module):
         self.decoder.weight.data.normal_(0, 0.01)
 
     def forward(self, input):
+        # import pdb;pdb.set_trace()
         y = self.tcn(input)
         # import pdb;pdb.set_trace()
         y = y.view(y.size(0), -1)

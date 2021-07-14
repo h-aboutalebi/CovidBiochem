@@ -31,8 +31,8 @@ class Data_extractor:
             if(len(trajectory)<self.trj_len):
                 self.pad_trajectory(trajectory)
             index=end[i]+1
-            final_list.append(np.array(trajectory).transpose())
-        random.shuffle(final_list)
+            final_list.append(np.array(trajectory))
+        # random.shuffle(final_list)
         return np.array(final_list)
 
     def pad_trajectory(self,trajectory):
@@ -42,7 +42,8 @@ class Data_extractor:
             trajectory.append(np.ones(self.action_shape))
 
     def create_dataset_TCN_ch(self, trj1, trj2):
-        return np.concatenate((trj1,trj2),axis=len(trj1.shape)-2)
+        output= np.concatenate((trj1,trj2),axis=-1)
+        return output
 
 
 
