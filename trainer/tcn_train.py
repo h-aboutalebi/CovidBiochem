@@ -29,12 +29,14 @@ class TCNTrainer:
             logger.info("epoch number: {}".format(epoch))
             for i, data in enumerate(self.trainloader, 0):
                 inputs, labels = data
+                # import pdb;pdb.set_trace()
                 inputs=inputs.to(self.device)
                 self.model.train()
                 self.optimizer.zero_grad()
                 # import pdb;pdb.set_trace()
-                outputs =self.model(inputs)
+                outputs =self.model(inputs.float())
                 loss = self.criterion(outputs, labels.to(self.device))
+                # import pdb;pdb.set_trace()
                 metric.update(outputs, labels.to(self.device), loss)
                 loss.backward()
                 self.optimizer.step()

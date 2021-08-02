@@ -44,7 +44,7 @@ class Data_extractor_buffer:
 
     def create_dataset_TCN_ch(self, trj1, trj2):
         output= np.concatenate((trj1,trj2),axis=-1)
-        return output.reshape(-1,self.buffer_size,output.shape[-2],output.shape[-1])
+        return output.reshape(-1,output.shape[-2],output.shape[-1],self.buffer_size)
 
 
 

@@ -43,7 +43,7 @@ class Test():
         for data in loader:
             images, labels = data
             # import pdb;pdb.set_trace()
-            outputs = model(images.to(device))
+            outputs = model(images.to(device).float())
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels.to(device)).sum().item()

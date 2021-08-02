@@ -42,7 +42,7 @@ parser.add_argument('--max_num_trj', type=int, default=25000,
                     help='trajectory length (default: 10)')
 parser.add_argument('--trj_len', type=int, default=100,
                     help='trajectory length (default: 10)')
-parser.add_argument('--bf_size', type=int, default=100,
+parser.add_argument('--bf_size', type=int, default=200,
                     help='buffer size (default: 100)')
 parser.add_argument('--n_output', type=int, default=2,
                     help='number of hidden units per layer (default: 600)')
@@ -127,11 +127,11 @@ if __name__ == '__main__':
     buildDataset=BuildDatasetBuffer(seeds_shadow=args.seeds_shadow,seeds_target=args.seeds_target,data_dir=args.data_dir,action_shape=args.action_shape,trj_len=args.trj_len,batch_size=args.batch_size,
                               max_num_trj=args.max_num_trj, buffer_size=args.bf_size)
     train_loader = buildDataset.load_trainset(max_num_trj=args.max_num_trj)
-    test_loader = buildDataset.load_testset(max_num_trj=1000)
+    test_loader = buildDataset.load_testset(max_num_trj=10000)
 
     # loading the model
     # model = TCN(args.trj_len,args.action_shape*2, args.n_output, num_chans, dropout=dropout, kernel_size=k_size,trj_len=args.trj_len)
-    model = ResNet18(num_classes=2)
+    model = ResNet18(num_classes=2,channel_size=args.trj_len,bf_size=args.bf_size)
     model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     trainer = TCNTrainer(train_loader, test_loader,model, optimizer, device)
