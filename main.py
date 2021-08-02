@@ -26,9 +26,9 @@ parser = argparse.ArgumentParser(description='TCN for Privacy Adversarial Attack
 # *********************************** General Setting ********************************************
 parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/results_privacy',
                     help='output path for files produced by the agent')
-parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/100/0',
+parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/100/2',
                     help='output path for files produced by the agent')
-parser.add_argument('--cuda_n', type=str, default="0", help='random seed (default: 4)')
+parser.add_argument('--cuda_n', type=str, default="1", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Dataset Loading Setting ********************************************
@@ -44,8 +44,8 @@ parser.add_argument('--batch_size', type=int, default=16, metavar='N',
                     help='batch size (default: 16)')
 parser.add_argument('--num_workers', type=int, default=4,
                     help='number of workers for torchvision Dataloader')
-parser.add_argument("--seeds_shadow", nargs="+", default=[5, 100])
-parser.add_argument("--seeds_target", nargs="+", default=[75, 700])
+parser.add_argument("--seeds_shadow", nargs="+", default=[80, 500])
+parser.add_argument("--seeds_target", nargs="+", default=[100, 5])
 
 # *********************************** Model Setting ********************************************
 parser.add_argument('--dropout', type=float, default=0.45,
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     buildDataset=BuildDataset(seeds_shadow=args.seeds_shadow,seeds_target=args.seeds_target,data_dir=args.data_dir,action_shape=args.action_shape,trj_len=args.trj_len,batch_size=args.batch_size,
                               max_num_trj=args.max_num_trj)
     train_loader = buildDataset.load_trainset(max_num_trj=args.max_num_trj)
-    test_loader = buildDataset.load_testset(max_num_trj=1000)
+    test_loader = buildDataset.load_testset(max_num_trj=2000)
 
     # loading the model
     model = TCN(args.trj_len,args.action_shape*2, args.n_output, num_chans, dropout=dropout, kernel_size=k_size,trj_len=args.trj_len)
