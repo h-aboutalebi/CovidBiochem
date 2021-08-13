@@ -42,7 +42,7 @@ parser.add_argument('--max_num_trj', type=int, default=25000,
                     help='trajectory length (default: 10)')
 parser.add_argument('--trj_len', type=int, default=100,
                     help='trajectory length (default: 10)')
-parser.add_argument('--bf_size', type=int, default=50,
+parser.add_argument('--bf_size', type=int, default=10,
                     help='buffer size (default: 100)')
 parser.add_argument('--n_output', type=int, default=2,
                     help='number of hidden units per layer (default: 600)')
