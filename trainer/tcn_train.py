@@ -23,7 +23,7 @@ class TCNTrainer:
     def change_model(self,model):
         self.model=model
 
-    def run(self,epochs):
+    def run(self,epochs,scheduler):
         metric = Metric()
         for epoch in range(epochs):
             logger.info("epoch number: {}".format(epoch))
@@ -43,6 +43,7 @@ class TCNTrainer:
                 loss.detach_()
             metric.log(epoch)
             metric.reset_params()
+            scheduler.step()
             self.test.get_accuracy_test(self.testloader, self.model, self.device, epoch)
 
 

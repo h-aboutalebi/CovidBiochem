@@ -4,6 +4,7 @@ from tensorboardX import SummaryWriter
 from data_loader.data_extractor import Data_extractor
 from torch.utils.data import DataLoader
 from models.tcn import TCN
+from torch.optim.lr_scheduler import MultiStepLR
 from trainer.tcn_train import TCNTrainer
 from utils.file_manager import File_Manager
 from data_loader.dataset import TCNDataset
@@ -26,7 +27,7 @@ parser = argparse.ArgumentParser(description='TCN for Privacy Adversarial Attack
 # *********************************** General Setting ********************************************
 parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/results_privacy',
                     help='output path for files produced by the agent')
-parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/100/1',
+parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/100/5',
                     help='output path for files produced by the agent')
 parser.add_argument('--cuda_n', type=str, default="1", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
@@ -36,7 +37,7 @@ parser.add_argument('--action_shape', type=int, default=3,
                     help='trajectory length (default: 10)')
 parser.add_argument('--max_num_trj', type=int, default=25000,
                     help='trajectory length (default: 10)')
-parser.add_argument('--trj_len', type=int, default=100,
+parser.add_argument('--trj_len', type=int, default=10,
                     help='trajectory length (default: 10)')
 parser.add_argument('--n_output', type=int, default=2,
                     help='number of hidden units per layer (default: 600)')
@@ -44,8 +45,11 @@ parser.add_argument('--batch_size', type=int, default=16, metavar='N',
                     help='batch size (default: 16)')
 parser.add_argument('--num_workers', type=int, default=4,
                     help='number of workers for torchvision Dataloader')
-parser.add_argument("--seeds_shadow", nargs="+", default=[5, 700])
-parser.add_argument("--seeds_target", nargs="+", default=[90, 75])
+# parser.add_argument("--seeds_shadow", nargs="+", default=[100, 700])
+# parser.add_argument("--seeds_target", nargs="+", default=[5, 45])
+
+parser.add_argument("--seeds_shadow", nargs="+", default=[75, 100])
+parser.add_argument("--seeds_target", nargs="+", default=[500, 90])
 
 # *********************************** Model Setting ********************************************
 parser.add_argument('--dropout', type=float, default=0.45,
@@ -66,8 +70,8 @@ parser.add_argument('--lr', type=float, default=0.0003,
                     help='initial learning rate (default: 4)')
 parser.add_argument('--weight_decay', type=float, default=0,
                     help='initial learning rate (default: 4)')
-parser.add_argument('--optim', type=str, default='SGD',
-                    help='optimizer type (default: SGD)')
+parser.add_argument('--optim', type=str, default='Adam',
+                    help='optimizer type (default: Adam)')
 args = parser.parse_args()
 
 # sets the seed for making it comparable with other implementations
@@ -127,5 +131,6 @@ if __name__ == '__main__':
     model = TCN(args.trj_len,args.action_shape*2, args.n_output, num_chans, dropout=dropout, kernel_size=k_size,trj_len=args.trj_len)
     model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    scheduler = MultiStepLR(optimizer, milestones=[33, 100], gamma=0.1)
     trainer = TCNTrainer(train_loader, test_loader,model, optimizer, device)
-    trainer.run(epochs)
+    trainer.run(epochs, scheduler)
