@@ -1,15 +1,15 @@
 #!/bin/bash
 
 trj_len="100"
-seed_number="2"
-seed_shadow1='seed_80'
-url_seed_shadow1='~/projects/rrg-dprecup/samin/learning_output/Hopper-v2/1000000/4000000/200/80/100/buffers/*'
-seed_shadow2='seed_500'
-url_seed_shadow2='~/projects/rrg-dprecup/samin/learning_output/Hopper-v2/1000000/4000000/200/500/100/buffers/*'
-seed_target1='seed_100'
-url_seed_seed_target1='~/projects/rrg-dprecup/samin/learning_output/Hopper-v2/1000000/4000000/400/100/100/buffers/*'
-seed_target2='seed_5'
-url_seed_seed_target2='~/projects/rrg-dprecup/samin/learning_output/Hopper-v2/1000000/4000000/400/5/100/buffers/*'
+seed_number='1'
+seed_shadow1='seed_5'
+url_seed_shadow1='~/projects/rrg-dprecup/samin/learning_output/Hopper-v2/1000000/4000000/200/5/100/buffers/*'
+seed_shadow2='seed_700'
+url_seed_shadow2='~/projects/rrg-dprecup/samin/learning_output/Hopper-v2/1000000/4000000/200/700/100/buffers/*'
+seed_target1='seed_90'
+url_seed_seed_target1='~/projects/rrg-dprecup/samin/learning_output/Hopper-v2/1000000/4000000/200/90/100/buffers/*'
+seed_target2='seed_75'
+url_seed_seed_target2='~/projects/rrg-dprecup/samin/learning_output/Hopper-v2/1000000/4000000/200/75/100/buffers/*'
 cd /home/hossein.aboutalebi/data/PrivAttack-Data
 
 mkdir $trj_len

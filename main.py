@@ -26,7 +26,7 @@ parser = argparse.ArgumentParser(description='TCN for Privacy Adversarial Attack
 # *********************************** General Setting ********************************************
 parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/results_privacy',
                     help='output path for files produced by the agent')
-parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/100/2',
+parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/100/1',
                     help='output path for files produced by the agent')
 parser.add_argument('--cuda_n', type=str, default="1", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
@@ -44,8 +44,8 @@ parser.add_argument('--batch_size', type=int, default=16, metavar='N',
                     help='batch size (default: 16)')
 parser.add_argument('--num_workers', type=int, default=4,
                     help='number of workers for torchvision Dataloader')
-parser.add_argument("--seeds_shadow", nargs="+", default=[80, 500])
-parser.add_argument("--seeds_target", nargs="+", default=[100, 5])
+parser.add_argument("--seeds_shadow", nargs="+", default=[5, 700])
+parser.add_argument("--seeds_target", nargs="+", default=[90, 75])
 
 # *********************************** Model Setting ********************************************
 parser.add_argument('--dropout', type=float, default=0.45,
