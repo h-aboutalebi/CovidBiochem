@@ -29,7 +29,7 @@ parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/r
                     help='output path for files produced by the agent')
 parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/100/5',
                     help='output path for files produced by the agent')
-parser.add_argument('--cuda_n', type=str, default="1", help='random seed (default: 4)')
+parser.add_argument('--cuda_n', type=str, default="0", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Dataset Loading Setting ********************************************
@@ -37,7 +37,7 @@ parser.add_argument('--action_shape', type=int, default=3,
                     help='trajectory length (default: 10)')
 parser.add_argument('--max_num_trj', type=int, default=25000,
                     help='trajectory length (default: 10)')
-parser.add_argument('--trj_len', type=int, default=10,
+parser.add_argument('--trj_len', type=int, default=100,
                     help='trajectory length (default: 10)')
 parser.add_argument('--n_output', type=int, default=2,
                     help='number of hidden units per layer (default: 600)')
