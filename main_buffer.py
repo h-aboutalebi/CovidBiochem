@@ -30,7 +30,7 @@ parser = argparse.ArgumentParser(description='TCN for Privacy Adversarial Attack
 # *********************************** General Setting ********************************************
 parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/results_privacy',
                     help='output path for files produced by the agent')
-parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/100/1',
+parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/HC/30/1',
                     help='output path for files produced by the agent')
 parser.add_argument('--cuda_n', type=str, default="0", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
@@ -50,8 +50,8 @@ parser.add_argument('--batch_size', type=int, default=64, metavar='N',
                     help='batch size (default: 16)')
 parser.add_argument('--num_workers', type=int, default=4,
                     help='number of workers for torchvision Dataloader')
-parser.add_argument("--seeds_shadow", nargs="+", default=[700, 5])
-parser.add_argument("--seeds_target", nargs="+", default=[75, 90])
+parser.add_argument("--seeds_shadow", nargs="+", default=[5,100] )
+parser.add_argument("--seeds_target", nargs="+", default=[75,90] )
 
 # *********************************** Model Setting ********************************************
 parser.add_argument('--dropout', type=float, default=0.45,
@@ -131,7 +131,7 @@ if __name__ == '__main__':
 
     # loading the model
     # model = TCN(args.trj_len,args.action_shape*2, args.n_output, num_chans, dropout=dropout, kernel_size=k_size,trj_len=args.trj_len)
-    model = ResNet18(num_classes=2,channel_size=args.trj_len,bf_size=args.bf_size)
+    model = ResNet18(num_classes=2,channel_size=args.trj_len,bf_size=args.bf_size,action_shape=args.action_shape)
     model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     trainer = TCNTrainer(train_loader, test_loader,model, optimizer, device)

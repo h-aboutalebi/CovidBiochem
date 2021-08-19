@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser(description='TCN for Privacy Adversarial Attack
 # *********************************** General Setting ********************************************
 parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/results_privacy',
                     help='output path for files produced by the agent')
-parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/HC/50/2',
+parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/HC/30/2',
                     help='output path for files produced by the agent')
 parser.add_argument('--cuda_n', type=str, default="0", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
@@ -48,8 +48,8 @@ parser.add_argument('--num_workers', type=int, default=4,
 # parser.add_argument("--seeds_shadow", nargs="+", default=[100, 700])
 # parser.add_argument("--seeds_target", nargs="+", default=[5, 45])
 
-parser.add_argument("--seeds_shadow", nargs="+", default=[500, 75])
-parser.add_argument("--seeds_target", nargs="+", default=[ 80, 100])
+parser.add_argument("--seeds_shadow", nargs="+", default=[80,100])
+parser.add_argument("--seeds_target", nargs="+", default=[500,75])
 
 # *********************************** Model Setting ********************************************
 parser.add_argument('--dropout', type=float, default=0.45,
@@ -64,7 +64,7 @@ parser.add_argument('--levels', type=int, default=4,
 # *********************************** Training Setting ********************************************
 parser.add_argument('--clip', type=float, default=0.35,
                     help='gradient clip, -1 means no clip (default: 0.35)')
-parser.add_argument('--epochs', type=int, default=100,
+parser.add_argument('--epochs', type=int, default=300,
                     help='upper epoch limit (default: 100)')
 parser.add_argument('--lr', type=float, default=0.0003,
                     help='initial learning rate (default: 4)')
@@ -131,6 +131,6 @@ if __name__ == '__main__':
     model = TCN(args.trj_len,args.action_shape*2, args.n_output, num_chans, dropout=dropout, kernel_size=k_size,trj_len=args.trj_len)
     model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    scheduler = MultiStepLR(optimizer, milestones=[33, 100], gamma=0.1)
+    scheduler = MultiStepLR(optimizer, milestones=[100, 200], gamma=0.1)
     trainer = TCNTrainer(train_loader, test_loader,model, optimizer, device)
     trainer.run(epochs, scheduler)

@@ -1,24 +1,24 @@
 #!/bin/bash
 
-trj_len='50'
+trj_len='30'
 
 seed_number='2'
 
-seed_shadow1='seed_500'
+seed_shadow1='seed_80'
 
-url_seed_shadow1='~/projects/rrg-dprecup/samin/learning_output/HalfCheetah-v2/1000000/2000000/200/500/50/buffers/*'
+url_seed_shadow1='~/projects/rrg-dprecup/samin/learning_output/HalfCheetah-v2/1000000/1000000/200/80/30/buffers/*'
 
-seed_shadow2='seed_75'
+seed_shadow2='seed_100'
 
-url_seed_shadow2='~/projects/rrg-dprecup/samin/learning_output/HalfCheetah-v2/1000000/2000000/200/75/50/buffers/*'
+url_seed_shadow2='~/projects/rrg-dprecup/samin/learning_output/HalfCheetah-v2/1000000/1000000/200/100/30/buffers/*'
 
-seed_target1='seed_80'
+seed_target1='seed_75'
 
-url_seed_seed_target1='~/projects/rrg-dprecup/samin/learning_output/HalfCheetah-v2/1000000/2000000/200/80/50/buffers/*'
+url_seed_seed_target1='~/projects/rrg-dprecup/samin/learning_output/HalfCheetah-v2/1000000/1000000/200/75/30/buffers/*'
 
-seed_target2='seed_100'
+seed_target2='seed_500'
 
-url_seed_seed_target2='~/projects/rrg-dprecup/samin/learning_output/HalfCheetah-v2/1000000/2000000/200/100/50/buffers/*'
+url_seed_seed_target2='~/projects/rrg-dprecup/samin/learning_output/HalfCheetah-v2/1000000/1000000/200/500/30/buffers/*'
 
 cd /home/hossein.aboutalebi/data/PrivAttack-Data/HC
 
