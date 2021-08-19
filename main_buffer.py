@@ -36,7 +36,7 @@ parser.add_argument('--cuda_n', type=str, default="0", help='random seed (defaul
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Dataset Loading Setting ********************************************
-parser.add_argument('--action_shape', type=int, default=3,
+parser.add_argument('--action_shape', type=int, default=6,
                     help='trajectory length (default: 10)')
 parser.add_argument('--max_num_trj', type=int, default=20000,
                     help='trajectory length (default: 10)')
