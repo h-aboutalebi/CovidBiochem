@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser(description='TCN for Privacy Adversarial Attack
 # *********************************** General Setting ********************************************
 parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/results_privacy',
                     help='output path for files produced by the agent')
-parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/500/2',
+parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/100/1',
                     help='output path for files produced by the agent')
 parser.add_argument('--cuda_n', type=str, default="0", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
@@ -48,7 +48,7 @@ parser.add_argument('--num_workers', type=int, default=4,
 # parser.add_argument("--seeds_shadow", nargs="+", default=[100, 700])
 # parser.add_argument("--seeds_target", nargs="+", default=[5, 45])
 
-parser.add_argument("--seeds_shadow", nargs="+", default=[80, 45])
+parser.add_argument("--seeds_shadow", nargs="+", default=[700, 5])
 parser.add_argument("--seeds_target", nargs="+", default=[ 75, 90])
 
 # *********************************** Model Setting ********************************************
