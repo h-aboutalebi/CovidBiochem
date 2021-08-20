@@ -27,13 +27,13 @@ parser = argparse.ArgumentParser(description='TCN for Privacy Adversarial Attack
 # *********************************** General Setting ********************************************
 parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/results_privacy',
                     help='output path for files produced by the agent')
-parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/HC/30/2',
+parser.add_argument('-d', '--data_dir', default='/home/hossein.aboutalebi/data/PrivAttack-Data/HC/200/2',
                     help='output path for files produced by the agent')
 parser.add_argument('--cuda_n', type=str, default="0", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Dataset Loading Setting ********************************************
-parser.add_argument('--decorrelated', action='store_false',
+parser.add_argument('--decorrelated', action='store_true',
                     help='whether to load weight for model or not')
 parser.add_argument('--action_shape', type=int, default=6,
                     help='trajectory length (default: 10)')
@@ -50,8 +50,8 @@ parser.add_argument('--num_workers', type=int, default=4,
 # parser.add_argument("--seeds_shadow", nargs="+", default=[100, 700])
 # parser.add_argument("--seeds_target", nargs="+", default=[5, 45])
 
-parser.add_argument("--seeds_shadow", nargs="+", default=[80,100])
-parser.add_argument("--seeds_target", nargs="+", default=[500,75])
+parser.add_argument("--seeds_shadow", nargs="+", default=[5, 80] )
+parser.add_argument("--seeds_target", nargs="+", default=[90, 75]  )
 
 # *********************************** Model Setting ********************************************
 parser.add_argument('--dropout', type=float, default=0.45,
