@@ -11,13 +11,13 @@ class Data_extractor:
     def update_trj_len(self,trj_len):
         self.trj_len=trj_len
 
-    def extract(self,file_trj,file_end):
+    def extract(self,file_trj,file_end,decorrelated=False):
         trj=np.load(file_trj)
         end=np.load(file_end)
-        final_list= self.create_action_trj(trj,end)
+        final_list= self.create_action_trj(trj,end,decorrelated)
         return final_list
 
-    def create_action_trj(self,trj,end):
+    def create_action_trj(self,trj,end,decorrelated):
         final_list=[]
         index = 0
         for i in range(len(end)):
@@ -31,8 +31,11 @@ class Data_extractor:
             if(len(trajectory)<self.trj_len):
                 self.pad_trajectory(trajectory)
             index=end[i]+1
+            if(decorrelated):
+                random.shuffle(trajectory)
             final_list.append(np.array(trajectory))
-        # random.shuffle(final_list)
+        if(decorrelated):
+            random.shuffle(final_list)
         return np.array(final_list)
 
     def pad_trajectory(self,trajectory):

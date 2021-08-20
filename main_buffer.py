@@ -36,6 +36,8 @@ parser.add_argument('--cuda_n', type=str, default="0", help='random seed (defaul
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Dataset Loading Setting ********************************************
+parser.add_argument('--decorrelated', action='store_false',
+                    help='whether to load weight for model or not')
 parser.add_argument('--action_shape', type=int, default=6,
                     help='trajectory length (default: 10)')
 parser.add_argument('--max_num_trj', type=int, default=20000,
@@ -125,7 +127,7 @@ if __name__ == '__main__':
     k_size = args.ksize
     dropout = args.dropout
     buildDataset=BuildDatasetBuffer(seeds_shadow=args.seeds_shadow,seeds_target=args.seeds_target,data_dir=args.data_dir,action_shape=args.action_shape,trj_len=args.trj_len,batch_size=args.batch_size,
-                              max_num_trj=args.max_num_trj, buffer_size=args.bf_size)
+                              max_num_trj=args.max_num_trj, buffer_size=args.bf_size,decorrelated=args.decorrelated)
     train_loader = buildDataset.load_trainset(max_num_trj=args.max_num_trj)
     test_loader = buildDataset.load_testset(max_num_trj=10000)
 
