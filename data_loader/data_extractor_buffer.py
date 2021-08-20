@@ -12,7 +12,7 @@ class Data_extractor_buffer:
     def update_trj_len(self,trj_len):
         self.trj_len=trj_len
 
-    def extract(self,file_trj,file_end,decorrelated):
+    def extract(self,file_trj,file_end,decorrelated=False):
         trj=np.load(file_trj)
         end=np.load(file_end)
         final_list= self.create_action_trj(trj,end,decorrelated)
