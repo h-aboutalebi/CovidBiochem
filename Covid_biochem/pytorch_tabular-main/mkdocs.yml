@@ -1,0 +1,63 @@
+site_name: PyTorch Tabular
+nav:
+    - Getting Started: 
+      - "PyTorch Tabular": index.md
+    - Tutorials:
+      - Basic Usage: "tutorials/01-Basic_Usage.ipynb"
+      - Advanced Usage: "tutorials/02-Advanced_Usage.ipynb"
+      - Extracting and Using Learned Embeddings: "tutorials/03-Extracting and Using Learned Embeddings.ipynb"
+      - Implementing New Architectures: "tutorials/04-Implementing New Architectures.ipynb"
+      - Experiment Tracking: "tutorials/05-Experiment_Tracking.ipynb"
+      - Imbalanced classification: "tutorials/06-Imbalanced Classification.ipynb"
+      - Probabilistic Regression using Mixture Density Networks: "tutorials/07-Probabilistic Regression with MDN.ipynb"
+    - Configuration:
+      - Data: data.md
+      - Models: models.md
+      - Training: training.md
+      - Optimizer and Learning Rate Scheduler: optimizer.md
+      - Experiment Tracking: experiment_tracking.md
+    - Tabular Model:
+      - TabularModel: tabular_model.md
+    - Other Features:
+      - "Other Features": other_features.md
+    # - FAQ: faq.md
+    - API: 
+      - API: apidocs.md
+    - Contributions:
+      - Contributing: contributing.md
+    - Credits and History:
+      - Authors: authors.md
+      - History: history.md
+theme:
+  name: material
+  features:
+    - search.suggest
+    - navigation.tabs
+    - navigation.tabs.sticky
+  palette:
+    primary: deep purple
+  logo: imgs/pytorch_tabular_logo_small.svg
+markdown_extensions:
+  - admonition
+  - codehilite
+  # - pymdownx.inlinehilite
+plugins:
+  - search
+  - mknotebooks
+  - mkdocstrings:
+      handlers:
+        python:
+          rendering:
+            show_root_heading: yes
+repo_url: https://github.com/manujosephv/pytorch_tabular
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/manujosephv/
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/manujosephv
+    - icon: fontawesome/solid/blog
+      link: https://deep-and-shallow.com/
+    - icon: fontawesome/brands/medium
+      link: https://medium.com/@manujosephv
+copyright: Copyright &copy; 2020 Manu Joseph

@@ -1,0 +1,14 @@
+::: pytorch_tabular.TabularModel
+::: pytorch_tabular.TabularDatamodule
+::: pytorch_tabular.models.CategoryEmbeddingModel
+::: pytorch_tabular.models.CategoryEmbeddingModelConfig
+::: pytorch_tabular.models.NodeConfig
+::: pytorch_tabular.models.NODEModel
+::: pytorch_tabular.models.TabNetModel
+::: pytorch_tabular.models.TabNetModelConfig
+::: pytorch_tabular.config.TrainerConfig
+::: pytorch_tabular.config.DataConfig
+::: pytorch_tabular.config.ModelConfig 
+::: pytorch_tabular.config.ExperimentConfig
+::: pytorch_tabular.config.OptimizerConfig
+::: pytorch_tabular.config.ExperimentRunManager
