@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import re
 from sklearn.impute import SimpleImputer
+from sklearn.utils import shuffle
 from data_preprocess.multi_column_encoder import MultiColumnLabelEncoder
 
 
@@ -10,6 +11,7 @@ class CSVHandler:
     def __init__(self, csv_file, useless_cols_list, target_col):
         self.csv_file = csv_file
         self.df = pd.read_csv(csv_file)
+        self.df = shuffle(self.df)
         self.correct_col_names()
         self.cat_cols, self.num_cols = None, None
         self.preprocess_csv(useless_cols_list=useless_cols_list)
