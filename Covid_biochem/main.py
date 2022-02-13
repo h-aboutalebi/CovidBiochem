@@ -8,12 +8,12 @@ from data_preprocess.csv_handler import CSVHandler
 
 dirname = os.path.dirname(__file__)
 csv_file = os.path.join(dirname, "pytorch_tabular-main/data/clinical_data.csv")
-target_col = "was_ventilated"
+target_col = "therapeuticexnoxBoolean"
 csv_handle = CSVHandler(
     csv_file,
     useless_cols_list=["to_patient_id"],
     target_col=target_col)
-train, test = train_test_split(csv_handle.df, random_state=42)
+train, test = train_test_split(csv_handle.df, test_size=0.2,random_state=42)
 
 clf = lgb.LGBMClassifier(random_state=42)
 clf.fit(
@@ -42,8 +42,8 @@ def print_metrics(y_true, y_pred, tag):
     if y_pred.ndim > 1:
         y_pred = y_pred.ravel()
     val_acc = accuracy_score(y_true, y_pred)
-    val_f1 = f1_score(y_true, y_pred)
-    print(f"{tag} Acc: {val_acc} | {tag} F1: {val_f1}")
+    # val_f1 = f1_score(y_true, y_pred)
+    print(f"{tag} Acc: {val_acc}")
 
 
 print_metrics(test[target_col], test_pred, "Holdout")
