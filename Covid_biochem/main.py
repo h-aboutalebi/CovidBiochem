@@ -8,7 +8,7 @@ from data_preprocess.csv_handler import CSVHandler
 
 dirname = os.path.dirname(__file__)
 csv_file = os.path.join(dirname, "pytorch_tabular-main/data/clinical_data.csv")
-target_col = "therapeuticexnoxBoolean"
+target_col = "therapeuticexnoxBoolean" #If your col name  has special character other than "_", remove them in the name
 csv_handle = CSVHandler(
     csv_file,
     useless_cols_list=["to_patient_id"],
