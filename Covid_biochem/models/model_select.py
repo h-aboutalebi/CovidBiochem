@@ -1,7 +1,7 @@
 import lightgbm as lgb
 
 
-class x:
+class Model_select():
 
     def __init__(self, model_name, categorical_feature, target_col, seed):
         self.model_name = model_name

@@ -5,10 +5,10 @@ import logging
 import datetime
 
 from sklearn.model_selection import train_test_split
-from models.model_selection import Model_select
+from models.model_select import Model_select
+from utility.file_manager import File_Manager
 from utility.utils import print_metrics, seed_everything
 from data_preprocess.csv_handler import CSVHandler
-from utility.utils import File_Manager
 
 logger = logging.getLogger(__name__)
 parser = argparse.ArgumentParser(description='Covid-Net BioChem')
@@ -31,7 +31,7 @@ parser.add_argument('--test_size', type=float, default=0.2, help='test size for 
 parser.add_argument('-t', '--target_col', type=str, default="therapeuticexnoxBoolean",
                     help='Target column to be used for prediction on Biochem.'
                     'If your col name  has special character other than "_", remove them in the name')
-parser.add_argument('-u', '--useless_cols', nargs='+', default=["therapeuticexnoxBoolean"],
+parser.add_argument('-u', '--useless_cols', nargs='+', default=["to_patient_id"],
                     help='Useless columns to be removed for prediction on Biochem.')
 
 
@@ -50,7 +50,7 @@ logging.basicConfig(level=logging.DEBUG, filename=file_path_results + "/log.txt"
 logging.getLogger().addHandler(logging.StreamHandler())
 
 csv_file = args.csv_path
-csv_handle = CSVHandler(csv_file, useless_cols_list=args.useless_cols, target_col=target_col)
+csv_handle = CSVHandler(csv_file, useless_cols_list=args.useless_cols, target_col=args.target_col)
 train_set, test_set = train_test_split(csv_handle.df, test_size=args.test_size, random_state=args.seed)
 
 model = Model_select(
