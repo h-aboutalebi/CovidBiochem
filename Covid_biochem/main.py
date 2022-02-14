@@ -1,10 +1,13 @@
 import pandas as pd
 import os
-import numpy as np
 from sklearn.model_selection import train_test_split
 import lightgbm as lgb
 from sklearn.metrics import accuracy_score, f1_score
+from utility.utils import seed_everything
 from data_preprocess.csv_handler import CSVHandler
+
+seed = 111
+seed_everything(seed)
 
 dirname = os.path.dirname(__file__)
 csv_file = os.path.join(dirname, "pytorch_tabular-main/data/clinical_data.csv")

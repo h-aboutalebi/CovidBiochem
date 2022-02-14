@@ -1,4 +1,10 @@
+#Files to ignore
+*.pyc 
+ls
+#Folders to ignore:
 .history/
 .vscode/
 .idea/
+
+#Personal notes:
 #My vscode setting path: /Users/hosseinaboutalebi/Library/Application Support/Code/User/settings.json
