@@ -51,7 +51,7 @@ class TabularModel:
         trainer_config: Optional[Union[TrainerConfig, str]] = None,
         experiment_config: Optional[Union[ExperimentConfig, str]] = None,
         model_callable: Optional[Callable] = None,
-    ):
+    ) -> None:
         """The core model which orchestrates everything from initializing the datamodule, the model, trainer, etc.
 
         Args:
@@ -412,7 +412,7 @@ class TabularModel:
         seed: Optional[int] = None,
         trained_backbone: Optional[pl.LightningModule] = None,
         callbacks: Optional[List[pl.Callback]] = None,
-    ):
+    ) -> None:
         """The fit method which takes in the data and triggers the training
 
         Args:
@@ -497,7 +497,7 @@ class TabularModel:
         plot=True,
         train_sampler: Optional[torch.utils.data.Sampler] = None,
         trained_backbone=None,
-    ):
+    ) -> None:
         """Enables the user to do a range test of good initial learning rates, to reduce the amount of guesswork in picking a good starting learning rate.
 
         Args:
@@ -576,7 +576,7 @@ class TabularModel:
         self.datamodule = None
         return new_lr, pd.DataFrame(lr_finder.results)
 
-    def evaluate(self, test: Optional[pd.DataFrame]):
+    def evaluate(self, test: Optional[pd.DataFrame]) -> Union[dict, list]:
         """Evaluates the dataframe using the loss and metrics already set in config
 
         Args:
@@ -605,7 +605,7 @@ class TabularModel:
         quantiles: Optional[List] = [0.25, 0.5, 0.75],
         n_samples: Optional[int] = 100,
         ret_logits=False,
-    ):
+    ) -> pd.DataFrame:
         """Uses the trained model to predict on new data and return as a dataframe
 
         Args:
