@@ -5,6 +5,7 @@ ls
 .history/
 .vscode/
 .idea/
+.pt_tmp/
 
 #Personal notes:
 #My vscode setting path: /Users/hosseinaboutalebi/Library/Application Support/Code/User/settings.json
