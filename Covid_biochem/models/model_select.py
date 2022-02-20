@@ -3,16 +3,19 @@ import lightgbm as lgb
 
 class Model_select():
 
-    def __init__(self, model_name, categorical_feature, target_col, seed):
+    def __init__(self, model_name, categorical_feature, target_col, num_classes, seed):
         self.model_name = model_name
         self.categorical_feature = categorical_feature
         self.target_col = target_col
         self.seed = seed
+        self.num_classes=num_classes
         self.model = None
 
     def create_model(self, **args):
         if(self.model_name == "lightgbm"):
             self.model = lgb.LGBMClassifier(random_state=self.seed)
+        elif(self.model_name == "tabtransformer"):
+            pass    
         else:
             raise Exception("Model not supported!")
 

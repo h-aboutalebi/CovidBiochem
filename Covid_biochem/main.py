@@ -17,9 +17,9 @@ dirname = os.path.dirname(__file__)
 # *********************************** General Setting *********************************************
 parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/results_covid_biochem',
                     help='output path for files produced by the agent')
-parser.add_argument('--csv_path', default=os.path.join(dirname, "pytorch_tabular-main/data/clinical_data.csv"),
+parser.add_argument('--csv_path', default=os.path.join(dirname, "pytorch_tabular_main/data/clinical_data.csv"),
                     help='path of csv file for BioChem')
-parser.add_argument('--cuda_n', type=str, default="0", help='random seed (default: 4)')
+parser.add_argument('--cuda_n', type=str, default="1", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Model Setting **********************************************
@@ -52,13 +52,13 @@ logging.getLogger().addHandler(logging.StreamHandler())
 csv_file = args.csv_path
 csv_handle = CSVHandler(csv_file, useless_cols_list=args.useless_cols, target_col=args.target_col)
 train_set, test_set = train_test_split(csv_handle.df, test_size=args.test_size, random_state=args.seed)
+num_classes = csv_handle.df[args.target_col].nunique()
+model = Model_select(model_name=args.model_name,
+                     categorical_feature=csv_handle.cat_cols,
+                     target_col=args.target_col,
+                     num_classes=num_classes,
+                     seed=args.seed)
 
-model = Model_select(
-    model_name=args.model_name,
-    categorical_feature=csv_handle.cat_cols,
-    target_col=args.target_col,
-    seed=args.seed,
-)
 model.create_model()
 model.train_model(train_set)
 test_pred = model.test_model(test_set)
