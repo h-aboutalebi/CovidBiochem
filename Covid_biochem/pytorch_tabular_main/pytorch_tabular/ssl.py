@@ -1,7 +1,7 @@
 import pytorch_lightning as pl
 from torch import Tensor
 
-from pytorch_tabular.models.common import PositionWiseFeedForward
+from pytorch_tabular_main.pytorch_tabular.models.common import PositionWiseFeedForward
 
 
 class Denoising(pl.LightningModule):

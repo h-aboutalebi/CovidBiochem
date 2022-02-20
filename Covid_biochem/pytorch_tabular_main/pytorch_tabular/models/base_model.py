@@ -13,9 +13,9 @@ import torchmetrics
 from omegaconf import DictConfig
 from torch import Tensor
 
-import pytorch_tabular.augmentations as augmentations
-import pytorch_tabular.ssl as ssl
-from pytorch_tabular.utils import loss_contrastive
+import pytorch_tabular_main.pytorch_tabular.augmentations as augmentations
+import pytorch_tabular_main.pytorch_tabular.ssl as ssl
+from pytorch_tabular_main.pytorch_tabular.utils import loss_contrastive
 
 try:
     import plotly.graph_objects as go

@@ -5,7 +5,7 @@ import logging
 import datetime
 
 from sklearn.model_selection import train_test_split
-from models.model_select import Model_select
+from models_parent.model_select import Model_select
 from utility.file_manager import File_Manager
 from utility.utils import print_metrics, seed_everything
 from data_preprocess.csv_handler import CSVHandler
@@ -19,12 +19,14 @@ parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/r
                     help='output path for files produced by the agent')
 parser.add_argument('--csv_path', default=os.path.join(dirname, "pytorch_tabular_main/data/clinical_data.csv"),
                     help='path of csv file for BioChem')
-parser.add_argument('--cuda_n', type=str, default="1", help='random seed (default: 4)')
+parser.add_argument('--cuda_n', type=str, default="2", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Model Setting **********************************************
 parser.add_argument('-m', '--model_name', type=str, default="lightgbm",
                     help='Available Model: lightgbm, tabtransformer')
+parser.add_argument('--epochs', type=int, default=1, help='number of epochs')
+parser.add_argument('-b', "--batch_size", type=int, default=16)
 
 # *********************************** Dataset Setting ********************************************
 parser.add_argument('--test_size', type=float, default=0.2, help='test size for experiment')
@@ -54,13 +56,14 @@ csv_handle = CSVHandler(csv_file, useless_cols_list=args.useless_cols, target_co
 train_set, test_set = train_test_split(csv_handle.df, test_size=args.test_size, random_state=args.seed)
 num_classes = csv_handle.df[args.target_col].nunique()
 model = Model_select(model_name=args.model_name,
+                     num_col_names= csv_handle.num_cols,
                      categorical_feature=csv_handle.cat_cols,
                      target_col=args.target_col,
                      num_classes=num_classes,
                      seed=args.seed)
 
 model.create_model()
-model.train_model(train_set)
+model.train_model(train_set, epochs= args.epochs, batch_size= args.batch_size)
 test_pred = model.test_model(test_set)
 
 print_metrics(test_set[args.target_col], test_pred, "Holdout")

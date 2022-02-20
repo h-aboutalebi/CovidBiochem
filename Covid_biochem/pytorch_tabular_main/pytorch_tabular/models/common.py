@@ -5,7 +5,7 @@ import torch
 from einops import rearrange
 from torch import einsum, nn
 
-from pytorch_tabular.models import common
+from pytorch_tabular_main.pytorch_tabular.models import common
 
 
 class Residual(nn.Module):

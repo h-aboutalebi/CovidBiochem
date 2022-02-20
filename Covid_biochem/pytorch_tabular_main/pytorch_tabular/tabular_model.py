@@ -27,8 +27,8 @@ from sklearn.base import TransformerMixin
 from torch import nn
 from tqdm.autonotebook import tqdm
 
-import pytorch_tabular.models as models
-from pytorch_tabular.config import (
+import pytorch_tabular_main.pytorch_tabular.models as models
+from pytorch_tabular_main.pytorch_tabular.config import (
     DataConfig,
     ExperimentConfig,
     ExperimentRunManager,
@@ -36,7 +36,7 @@ from pytorch_tabular.config import (
     OptimizerConfig,
     TrainerConfig,
 )
-from pytorch_tabular.tabular_datamodule import TabularDatamodule
+from pytorch_tabular_main.pytorch_tabular.tabular_datamodule import TabularDatamodule
 
 logger = logging.getLogger(__name__)
 

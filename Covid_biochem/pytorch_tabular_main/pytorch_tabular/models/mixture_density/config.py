@@ -5,9 +5,9 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from pytorch_tabular.models.autoint import AutoIntConfig
-from pytorch_tabular.models.category_embedding import CategoryEmbeddingModelConfig
-from pytorch_tabular.models.node import NodeConfig
+from pytorch_tabular_main.pytorch_tabular.models.autoint import AutoIntConfig
+from pytorch_tabular_main.pytorch_tabular.models.category_embedding import CategoryEmbeddingModelConfig
+from pytorch_tabular_main.pytorch_tabular.models.node import NodeConfig
 
 
 @dataclass

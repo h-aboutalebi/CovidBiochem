@@ -11,7 +11,7 @@ import torch
 import torch.nn as nn
 from omegaconf import DictConfig
 
-from pytorch_tabular.utils import _initialize_layers, _linear_dropout_bn
+from pytorch_tabular_main.pytorch_tabular.utils import _initialize_layers, _linear_dropout_bn
 
 from ..base_model import BaseModel
 

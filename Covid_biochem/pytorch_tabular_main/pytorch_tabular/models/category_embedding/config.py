@@ -4,7 +4,7 @@
 """Category Embedding Model Config"""
 from dataclasses import dataclass, field
 
-from pytorch_tabular.config import ModelConfig
+from pytorch_tabular_main.pytorch_tabular.config import ModelConfig
 
 
 @dataclass
