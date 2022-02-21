@@ -44,6 +44,7 @@ class Tabtransformer:
         #                                           log_target="wandb",
         #                                           log_logits=True)
         self.optimizer_config = OptimizerConfig()
+        self.tabular_model=None
 
     def train(self, train, epochs, batch_size, cuda_n, seed):
         trainer_config = TrainerConfig(
@@ -66,3 +67,7 @@ class Tabtransformer:
             # loss=cust_loss,
             # train_sampler=sampler,
             seed=seed)
+        self.tabular_model=tabular_model
+        
+    def predict(self, test_set):
+        self.tabular_model.evaluate(test_set)

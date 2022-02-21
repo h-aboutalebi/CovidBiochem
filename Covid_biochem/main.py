@@ -7,7 +7,7 @@ import datetime
 from sklearn.model_selection import train_test_split
 from models_parent.model_select import Model_select
 from utility.file_manager import File_Manager
-from utility.utils import print_metrics, seed_everything
+from utility.utils import seed_everything
 from data_preprocess.csv_handler import CSVHandler
 
 logger = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ parser.add_argument('--seed', type=int, default=1111, help='random seed (default
 # *********************************** Model Setting **********************************************
 parser.add_argument('-m', '--model_name', type=str, default="lightgbm",
                     help='Available Model: lightgbm, tabtransformer')
-parser.add_argument('--epochs', type=int, default=1, help='number of epochs')
+parser.add_argument('--epochs', type=int, default=10, help='number of epochs')
 parser.add_argument('-b', "--batch_size", type=int, default=16)
 
 # *********************************** Dataset Setting ********************************************
@@ -79,5 +79,3 @@ model = Model_select(model_name=args.model_name,
 model.create_model()
 model.train_model(train_set, epochs=args.epochs, batch_size=args.batch_size, cuda_n=args.cuda_n, seed=args.seed)
 test_pred = model.test_model(test_set)
-
-print_metrics(test_set[args.target_col], test_pred, "Holdout")

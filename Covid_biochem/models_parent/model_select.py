@@ -1,7 +1,7 @@
 import lightgbm as lgb
 
 from models_parent.tabtransformer import Tabtransformer
-
+from utility.utils import print_metrics
 
 class Model_select():
 
@@ -40,6 +40,9 @@ class Model_select():
     def test_model(self, test_set):
         if(self.model_name == "lightgbm"):
             test_pred = self.model.predict(test_set.drop(columns=self.target_col))
+            print_metrics(test_set[self.target_col], test_pred, "Holdout")
+        elif(self.model_name == "tabtransformer"):
+            test_pred = self.model.predict(test_set)
         else:
             raise Exception("Model not supported!")
         return test_pred
