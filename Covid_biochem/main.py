@@ -1,4 +1,4 @@
-import pandas as pd
+import torch
 import os
 import argparse
 import logging
@@ -51,19 +51,33 @@ os.mkdir(file_path_results)
 logging.basicConfig(level=logging.DEBUG, filename=file_path_results + "/log.txt")
 logging.getLogger().addHandler(logging.StreamHandler())
 
+header = "===================== Experiment configuration ========================"
+logger.info(header)
+args_keys = sorted(vars(args).keys())
+max_k = len(max(args_keys, key=lambda x: len(x)))
+for k in args_keys:
+    s = k + '.' * (max_k - len(k)) + ': %s' % repr(getattr(args, k))
+    logger.info(s + ' ' * max((len(header) - len(s), 0)))
+logger.info("=" * len(header))
+
+# *********************************** Environment Building ********************************************
+device = torch.device("cuda:" + args.cuda_n if torch.cuda.is_available() else "cpu")
+os.environ["CUDA_VISIBILE_DEVICES"] = args.cuda_n
+logger.info("device is set for: {}".format(device))
+
 csv_file = args.csv_path
 csv_handle = CSVHandler(csv_file, useless_cols_list=args.useless_cols, target_col=args.target_col)
 train_set, test_set = train_test_split(csv_handle.df, test_size=args.test_size, random_state=args.seed)
 num_classes = csv_handle.df[args.target_col].nunique()
 model = Model_select(model_name=args.model_name,
-                     num_col_names= csv_handle.num_cols,
+                     num_col_names=csv_handle.num_cols,
                      categorical_feature=csv_handle.cat_cols,
                      target_col=args.target_col,
                      num_classes=num_classes,
                      seed=args.seed)
 
 model.create_model()
-model.train_model(train_set, epochs= args.epochs, batch_size= args.batch_size)
+model.train_model(train_set, epochs=args.epochs, batch_size=args.batch_size, cuda_n=args.cuda_n, seed=args.seed)
 test_pred = model.test_model(test_set)
 
 print_metrics(test_set[args.target_col], test_pred, "Holdout")

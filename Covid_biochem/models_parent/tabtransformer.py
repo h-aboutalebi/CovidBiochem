@@ -22,7 +22,7 @@ class Tabtransformer:
             task="classification"):
         self.target_name = target_name
         self.data_config = DataConfig(
-            target=target_name,
+            target=[target_name],
             continuous_cols=num_col_names,
             categorical_cols=cat_col_names,
             continuous_feature_transform=None,  # "quantile_normal",
@@ -45,9 +45,9 @@ class Tabtransformer:
         #                                           log_logits=True)
         self.optimizer_config = OptimizerConfig()
 
-    def train(self, train, epochs, batch_size):
+    def train(self, train, epochs, batch_size, cuda_n, seed):
         trainer_config = TrainerConfig(
-            gpus=-1,
+            gpus=[int(cuda_n)],
             auto_select_gpus=True,
             fast_dev_run=True,
             max_epochs=epochs,
@@ -59,9 +59,10 @@ class Tabtransformer:
             trainer_config=trainer_config,
             # experiment_config=experiment_config,
         )
-        sampler = get_balanced_sampler(train[self.target_name].values.ravel())
+        # sampler = get_balanced_sampler(train[self.target_name].values.ravel())
         tabular_model.fit(
             train=train,
             # validation=val,
             # loss=cust_loss,
-            train_sampler=sampler)
+            # train_sampler=sampler,
+            seed=seed)

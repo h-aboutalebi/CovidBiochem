@@ -1,6 +1,8 @@
 import lightgbm as lgb
 
 from models_parent.tabtransformer import Tabtransformer
+
+
 class Model_select():
 
     def __init__(self, model_name, num_col_names, categorical_feature, target_col, num_classes, seed):
@@ -30,7 +32,8 @@ class Model_select():
                 train_set[self.target_col],
                 categorical_feature=self.categorical_feature)
         elif(self.model_name == "tabtransformer"):
-            self.model.train(train_set, epochs=kwargs["epochs"], batch_size=kwargs["batch_size"])
+            self.model.train(train_set, epochs=kwargs["epochs"], batch_size=kwargs["batch_size"],
+                             cuda_n=kwargs["cuda_n"], seed=kwargs["seed"])
         else:
             raise Exception("Model not supported!")
 
