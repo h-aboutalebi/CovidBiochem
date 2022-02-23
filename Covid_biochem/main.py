@@ -1,3 +1,4 @@
+from lightgbm import early_stopping
 import torch
 import os
 import argparse
@@ -25,8 +26,17 @@ parser.add_argument('--seed', type=int, default=1111, help='random seed (default
 # *********************************** Model Setting **********************************************
 parser.add_argument('-m', '--model_name', type=str, default="lightgbm",
                     help='Available Model: lightgbm, tabtransformer')
+parser.add_argument('--gradient_clip_val', type=float, default=0.0, help='Gradient clipping value')
 parser.add_argument('--epochs', type=int, default=10, help='number of epochs')
+parser.add_argument('--early_stopping_patience', type=int, default=3, help='Number of epochs to wait before early stopping')
 parser.add_argument('-b', "--batch_size", type=int, default=16)
+parser.add_argument('--checkpoints_save_top_k', type=int, default=1, help='Number of best models to save')
+parser.add_argument('--auto_lr_find', action="store_true", 
+    help='Runs a learning rate finder algorithm (see this paper) when calling trainer.tune(), to find optimal initial learning rate.')
+
+# *********************************** Optimizer Setting **********************************************
+parser.add_argument('--lr_scheduler', type=str, default=None,
+    help='The name of the LearningRateScheduler to use, if any, from [torch.optim.lr_scheduler](https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate). If None, will not use any scheduler. Defaults to `None`')
 
 # *********************************** Dataset Setting ********************************************
 parser.add_argument('--test_size', type=float, default=0.2, help='test size for experiment')
@@ -74,8 +84,19 @@ model = Model_select(model_name=args.model_name,
                      categorical_feature=csv_handle.cat_cols,
                      target_col=args.target_col,
                      num_classes=num_classes,
+                     lr_scheduler=args.lr_scheduler,
                      seed=args.seed)
 
 model.create_model()
-model.train_model(train_set, epochs=args.epochs, batch_size=args.batch_size, cuda_n=args.cuda_n, seed=args.seed)
+model.train_model(
+    train_set,
+    gradient_clip_val=args.gradient_clip_val,
+    epochs=args.epochs, 
+    batch_size=args.batch_size, 
+    early_stopping_patience=args.early_stopping_patience,
+    checkpoints_save_top_k=args.checkpoints_save_top_k,
+    auto_lr_find=args.auto_lr_find,
+    cuda_n=args.cuda_n, 
+    seed=args.seed,
+    )
 test_pred = model.test_model(test_set)
