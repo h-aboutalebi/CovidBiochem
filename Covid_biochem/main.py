@@ -31,6 +31,7 @@ parser.add_argument('--epochs', type=int, default=10, help='number of epochs')
 parser.add_argument('--early_stopping_patience', type=int, default=3, help='Number of epochs to wait before early stopping')
 parser.add_argument('-b', "--batch_size", type=int, default=16)
 parser.add_argument('--checkpoints_save_top_k', type=int, default=1, help='Number of best models to save')
+parser.add_argument('--lr', type=float, default=0.001, help="Initial learning rate")
 parser.add_argument('--auto_lr_find', action="store_true", 
     help='Runs a learning rate finder algorithm (see this paper) when calling trainer.tune(), to find optimal initial learning rate.')
 
@@ -85,6 +86,7 @@ model = Model_select(model_name=args.model_name,
                      target_col=args.target_col,
                      num_classes=num_classes,
                      lr_scheduler=args.lr_scheduler,
+                     init_lr=args.lr,
                      seed=args.seed)
 
 model.create_model()

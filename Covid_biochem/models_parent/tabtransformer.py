@@ -20,6 +20,7 @@ class Tabtransformer:
             share_embedding=True,
             share_embedding_strategy="add",
             task="classification",
+            init_lr=0.001,
             lr_scheduler=None,
             ):
         self.target_name = target_name
@@ -38,6 +39,7 @@ class Tabtransformer:
             share_embedding_strategy=share_embedding_strategy,
             shared_embedding_fraction=shared_embedding_fraction,
             metrics_params=[{"num_classes": num_classes, "average": "macro"}, {}],
+            learning_rate=init_lr,
         )
 
         # self.experiment_config = ExperimentConfig(project_name="PyTorch Tabular Example",

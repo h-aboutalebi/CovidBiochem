@@ -5,7 +5,7 @@ from utility.utils import print_metrics
 
 class Model_select():
 
-    def __init__(self, model_name, num_col_names, categorical_feature, target_col, num_classes, lr_scheduler, seed):
+    def __init__(self, model_name, num_col_names, categorical_feature, target_col, num_classes, lr_scheduler, init_lr, seed):
         self.model_name = model_name
         self.categorical_feature = categorical_feature
         self.num_col_names = num_col_names
@@ -14,6 +14,7 @@ class Model_select():
         self.num_classes = num_classes
         self.model = None
         self.lr_scheduler = lr_scheduler
+        self.init_lr = init_lr
 
     def create_model(self, **kwargs):
         if(self.model_name == "lightgbm"):
@@ -24,6 +25,7 @@ class Model_select():
                                         num_col_names=self.num_col_names,
                                         cat_col_names=self.categorical_feature,
                                         lr_scheduler=self.lr_scheduler,
+                                        init_lr=self.init_lr,
                                         )
         else:
             raise Exception("Model not supported!")
