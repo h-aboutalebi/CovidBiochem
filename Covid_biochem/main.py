@@ -27,11 +27,11 @@ parser.add_argument('--seed', type=int, default=1111, help='random seed (default
 parser.add_argument('-m', '--model_name', type=str, default="lightgbm",
                     help='Available Model: lightgbm, tabtransformer')
 parser.add_argument('--gradient_clip_val', type=float, default=0.0, help='Gradient clipping value')
-parser.add_argument('--epochs', type=int, default=10, help='number of epochs')
-parser.add_argument('--early_stopping_patience', type=int, default=3, help='Number of epochs to wait before early stopping')
-parser.add_argument('-b', "--batch_size", type=int, default=16)
-parser.add_argument('--checkpoints_save_top_k', type=int, default=1, help='Number of best models to save')
-parser.add_argument('--lr', type=float, default=0.001, help="Initial learning rate")
+parser.add_argument('--epochs', type=int, default=30, help='number of epochs')
+parser.add_argument('--early_stopping_patience', type=int, default=30, help='Number of epochs to wait before early stopping')
+parser.add_argument('-b', "--batch_size", type=int, default=128)
+parser.add_argument('--checkpoints_save_top_k', type=int, default=0, help='Number of best models to save')
+parser.add_argument('--lr', type=float, default=0.0008, help="Initial learning rate")
 parser.add_argument('--auto_lr_find', action="store_true", 
     help='Runs a learning rate finder algorithm (see this paper) when calling trainer.tune(), to find optimal initial learning rate.')
 
