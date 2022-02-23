@@ -5,7 +5,7 @@ from utility.utils import print_metrics
 
 class Model_select():
 
-    def __init__(self, model_name, num_col_names, categorical_feature, target_col, num_classes, seed):
+    def __init__(self, model_name, num_col_names, categorical_feature, target_col, num_classes, lr_scheduler, init_lr, seed):
         self.model_name = model_name
         self.categorical_feature = categorical_feature
         self.num_col_names = num_col_names
@@ -13,6 +13,8 @@ class Model_select():
         self.seed = seed
         self.num_classes = num_classes
         self.model = None
+        self.lr_scheduler = lr_scheduler
+        self.init_lr = init_lr
 
     def create_model(self, **kwargs):
         if(self.model_name == "lightgbm"):
@@ -21,7 +23,10 @@ class Model_select():
             self.model = Tabtransformer(num_classes=self.num_classes,
                                         target_name=self.target_col,
                                         num_col_names=self.num_col_names,
-                                        cat_col_names=self.categorical_feature)
+                                        cat_col_names=self.categorical_feature,
+                                        lr_scheduler=self.lr_scheduler,
+                                        init_lr=self.init_lr,
+                                        )
         else:
             raise Exception("Model not supported!")
 
@@ -32,8 +37,17 @@ class Model_select():
                 train_set[self.target_col],
                 categorical_feature=self.categorical_feature)
         elif(self.model_name == "tabtransformer"):
-            self.model.train(train_set, epochs=kwargs["epochs"], batch_size=kwargs["batch_size"],
-                             cuda_n=kwargs["cuda_n"], seed=kwargs["seed"])
+            self.model.train(
+                train_set,
+                gradient_clip_val=kwargs["gradient_clip_val"],
+                epochs=kwargs["epochs"], 
+                batch_size=kwargs["batch_size"],
+                early_stopping_patience=kwargs["early_stopping_patience"],
+                checkpoints_save_top_k=kwargs["checkpoints_save_top_k"],
+                auto_lr_find=kwargs["auto_lr_find"],
+                cuda_n=kwargs["cuda_n"], 
+                seed=kwargs["seed"],
+                )
         else:
             raise Exception("Model not supported!")
 

@@ -19,7 +19,10 @@ class Tabtransformer:
             shared_embedding_fraction=0.25,
             share_embedding=True,
             share_embedding_strategy="add",
-            task="classification"):
+            task="classification",
+            init_lr=0.001,
+            lr_scheduler=None,
+            ):
         self.target_name = target_name
         self.data_config = DataConfig(
             target=[target_name],
@@ -36,6 +39,7 @@ class Tabtransformer:
             share_embedding_strategy=share_embedding_strategy,
             shared_embedding_fraction=shared_embedding_fraction,
             metrics_params=[{"num_classes": num_classes, "average": "macro"}, {}],
+            learning_rate=init_lr,
         )
 
         # self.experiment_config = ExperimentConfig(project_name="PyTorch Tabular Example",
@@ -43,16 +47,34 @@ class Tabtransformer:
         #                                           exp_watch="gradients",
         #                                           log_target="wandb",
         #                                           log_logits=True)
-        self.optimizer_config = OptimizerConfig()
+        self.optimizer_config = OptimizerConfig(lr_scheduler=lr_scheduler)
         self.tabular_model=None
 
-    def train(self, train, epochs, batch_size, cuda_n, seed):
+    def train(
+        self, 
+        train,
+        gradient_clip_val, 
+        epochs, 
+        batch_size,
+        early_stopping_patience,
+        checkpoints_save_top_k,
+        auto_lr_find,
+        cuda_n, 
+        seed,
+        ):
+
         trainer_config = TrainerConfig(
             gpus=[int(cuda_n)],
             auto_select_gpus=True,
             fast_dev_run=False,
-            min_epochs=epochs,
-            batch_size=batch_size)
+            auto_lr_find=auto_lr_find,
+            gradient_clip_val=gradient_clip_val,
+            early_stopping_patience=early_stopping_patience,
+            max_epochs=epochs,
+            batch_size=batch_size,
+            checkpoints_save_top_k=checkpoints_save_top_k,
+            )
+
         tabular_model = TabularModel(
             data_config=self.data_config,
             model_config=self.model_config,
