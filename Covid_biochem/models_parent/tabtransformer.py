@@ -50,8 +50,8 @@ class Tabtransformer:
         trainer_config = TrainerConfig(
             gpus=[int(cuda_n)],
             auto_select_gpus=True,
-            fast_dev_run=True,
-            max_epochs=epochs,
+            fast_dev_run=False,
+            min_epochs=epochs,
             batch_size=batch_size)
         tabular_model = TabularModel(
             data_config=self.data_config,

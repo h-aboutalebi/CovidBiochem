@@ -19,13 +19,13 @@ parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/r
                     help='output path for files produced by the agent')
 parser.add_argument('--csv_path', default=os.path.join(dirname, "pytorch_tabular_main/data/clinical_data.csv"),
                     help='path of csv file for BioChem')
-parser.add_argument('--cuda_n', type=str, default="2", help='random seed (default: 4)')
+parser.add_argument('--cuda_n', type=str, default="7", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Model Setting **********************************************
 parser.add_argument('-m', '--model_name', type=str, default="lightgbm",
                     help='Available Model: lightgbm, tabtransformer')
-parser.add_argument('--epochs', type=int, default=10, help='number of epochs')
+parser.add_argument('--epochs', type=int, default=100, help='number of epochs')
 parser.add_argument('-b', "--batch_size", type=int, default=16)
 
 # *********************************** Dataset Setting ********************************************
