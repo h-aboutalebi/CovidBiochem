@@ -5,7 +5,7 @@ import logging
 import datetime
 
 from sklearn.model_selection import train_test_split
-from Covid_biochem.data_preprocess.image_dataloader import DataLoaderCXR
+from data_preprocess.image_dataloader import DataLoaderCXR
 from models_parent.model_select import Model_select
 from torch.utils.data import DataLoader
 from utility.file_manager import File_Manager
@@ -43,7 +43,7 @@ parser.add_argument('-b', "--batch_size", type=int, default=128)
 
 # *********************************** Optimizer Setting **********************************************
 parser.add_argument('--lr', type=float, default=0.0008, help="Initial learning rate")
-parser.add_argument('--schedule',
+parser.add_argument('--milestones',
                     type=int,
                     nargs='+',
                     default=[50, 100, 150],
@@ -142,13 +142,13 @@ model = Model_select(model_name=args.model_name,
                      categorical_feature=csv_handle.cat_cols,
                      target_col=args.target_col,
                      num_classes=num_classes,
-                     lr_scheduler=args.lr_scheduler,
+                     lr_scheduler=None,
                      init_lr=args.lr,
                      seed=args.seed)
 model.create_model(device=device)
 
 #Training model:
-model.train(train_set=train_loader,
+model.train_model(train_set=train_loader,
             testset=test_loader,
             epochs=args.epochs,
             lr=args.lr,

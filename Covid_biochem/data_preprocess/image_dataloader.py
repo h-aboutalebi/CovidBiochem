@@ -19,7 +19,7 @@ class DataLoaderCXR(Dataset):
         return len(self.patient_ids)
 
     def __getitem__(self, idx):
-        path_name = os.path.join(self.image_folder, self.patient_ids[idx])
+        path_name = os.path.join(self.image_folder, str(self.patient_ids[idx]))
         image_name = os.path.join(path_name, r'*.jpg')
         image = cv2.imread(image_name, 0)
         image = cv2.resize(image, (self.img_size, self.img_size))

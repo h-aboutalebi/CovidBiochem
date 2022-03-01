@@ -1,5 +1,5 @@
 import lightgbm as lgb
-from Covid_biochem.models_parent.swin import Swin
+from models_parent.swin import Swin
 from models_parent.tabtransformer import Tabtransformer
 from utility.utils import print_metrics
 

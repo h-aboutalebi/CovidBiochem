@@ -1,10 +1,10 @@
 import torch.optim as optim
 import torch.nn as nn
 import logging
-from Covid_biochem.models_parent.swin_transformer import swin_t
+from models_parent.swin_transformer import swin_t
 from torch.optim.lr_scheduler import MultiStepLR
 
-from Covid_biochem.utility.utils import pytorch_accuracy
+from utility.utils import pytorch_accuracy
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +13,8 @@ class Swin:
 
     def __init__(self, num_classes, device):
         self.num_classes = num_classes
-        self.model = swin_t(num_classes=self.num_classes).to(self.device)
+        model = swin_t(num_classes=self.num_classes)
+        self.model = model.to(device)
         self.criterion = nn.CrossEntropyLoss()
         self.device = device
 
@@ -23,7 +24,7 @@ class Swin:
                               lr=lr,
                               momentum=momentum,
                               weight_decay=weight_decay)
-        scheduler = MultiStepLR(self.optimizer, milestones=milestones, gamma=gamma)
+        scheduler = MultiStepLR(optimizer, milestones=milestones, gamma=gamma)
         logger.info("Training has started for SwinTranssformer ...")
         for epoch in range(1, epochs + 1):
             # import ipdb;ipdb.set_trace()
