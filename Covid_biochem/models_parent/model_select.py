@@ -1,5 +1,5 @@
 import lightgbm as lgb
-
+from Covid_biochem.models_parent.swin import Swin
 from models_parent.tabtransformer import Tabtransformer
 from utility.utils import print_metrics
 
@@ -27,6 +27,8 @@ class Model_select():
                                         lr_scheduler=self.lr_scheduler,
                                         init_lr=self.init_lr,
                                         )
+        elif(self.model_name == "swintransformer"):
+            self.model = Swin(num_classes=self.num_classes, device= kwargs["device"])
         else:
             raise Exception("Model not supported!")
 
@@ -47,6 +49,17 @@ class Model_select():
                 auto_lr_find=kwargs["auto_lr_find"],
                 cuda_n=kwargs["cuda_n"], 
                 seed=kwargs["seed"],
+                )
+        elif(self.model_name == "swintransformer"):
+            self.model.train(
+                trainloader=train_set,
+                testloader=kwargs["testset"],
+                epochs=kwargs["epochs"],
+                lr=kwargs["lr"],
+                milestones=kwargs["milestones"],
+                gamma=kwargs["gamma"],
+                momentum=kwargs["momentum"],
+                weight_decay=kwargs["weight_decay"]
                 )
         else:
             raise Exception("Model not supported!")

@@ -2,6 +2,7 @@ from sklearn.preprocessing import LabelEncoder
 
 
 class MultiColumnLabelEncoder:
+
     def __init__(self, columns=None):
         self.columns = columns  # array of column names to encode
 

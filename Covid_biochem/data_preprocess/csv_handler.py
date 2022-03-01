@@ -18,12 +18,13 @@ class CSVHandler:
         self.remove_target_col(target_col)
 
     def correct_col_names(self):
-        self.df = self.df.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
+        self.df = self.df.rename(
+            columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
 
     def remove_target_col(self, target_col):
-        if(target_col in self.cat_cols):
+        if (target_col in self.cat_cols):
             self.cat_cols.remove(target_col)
-        elif(target_col in self.num_cols):
+        elif (target_col in self.num_cols):
             self.num_cols.remove(target_col)
         else:
             raise Exception("target column not in csv!")
@@ -49,12 +50,16 @@ class CSVHandler:
         self.apply_imputation_cat()
 
     def apply_imputation_cat(self):
-        imp = SimpleImputer(missing_values=np.nan, strategy='constant', fill_value="NA")
+        imp = SimpleImputer(missing_values=np.nan,
+                            strategy='constant',
+                            fill_value="NA")
         self.df[self.cat_cols] = pd.DataFrame(
             imp.fit_transform(self.df[self.cat_cols]))
 
     def apply_imputation_num(self):
-        imp = SimpleImputer(missing_values=np.nan, strategy='constant', fill_value=-1)
+        imp = SimpleImputer(missing_values=np.nan,
+                            strategy='constant',
+                            fill_value=-1)
         self.df[self.num_cols] = pd.DataFrame(
             imp.fit_transform(self.df[self.num_cols]))
 

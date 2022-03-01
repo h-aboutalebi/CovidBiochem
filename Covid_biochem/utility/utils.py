@@ -18,6 +18,15 @@ def seed_everything(seed=42):
     torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
+    
+def pytorch_accuracy(list_labels,list_outputs):
+    correct=0
+    total=0
+    for i in len(list_labels):
+        correct += (list_outputs[i] == list_labels[i]).float().sum()
+        total+=len(list_labels)
+    return correct / total
+    
 
 
 def print_metrics(y_true, y_pred, tag):
