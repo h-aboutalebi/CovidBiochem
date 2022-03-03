@@ -29,7 +29,7 @@ parser.add_argument('--image_path',
                     default=os.path.join(
                         dirname, "/storage/disk2/covid_biochem/stonybrook_cleaned"),
                     help='path of csv file for BioChem')
-parser.add_argument('--cuda_n', type=str, default="3", help='random seed (default: 4)')
+parser.add_argument('--cuda_n', type=str, default="7", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Model Setting **********************************************
@@ -39,10 +39,10 @@ parser.add_argument('-m',
                     default="swintransformer",
                     help='Available Model: swintransformer')
 parser.add_argument('--epochs', type=int, default=30, help='number of epochs')
-parser.add_argument('-b', "--batch_size", type=int, default=128)
+parser.add_argument('-b', "--batch_size", type=int, default=16)
 
 # *********************************** Optimizer Setting **********************************************
-parser.add_argument('--lr', type=float, default=0.0008, help="Initial learning rate")
+parser.add_argument('--lr', type=float, default=0.008, help="Initial learning rate")
 parser.add_argument('--milestones',
                     type=int,
                     nargs='+',
@@ -76,7 +76,7 @@ parser.add_argument('-u',
                     nargs='+',
                     default=[],
                     help='Useless columns to be removed for prediction on Biochem.')
-parser.add_argument("--img_size", type=int, default=480)
+parser.add_argument("--img_size", type=int, default=512)
 parser.add_argument("--num_workers", type=int, default=2)
 parser.add_argument('--input_col', type=str, default="to_patient_id")
 

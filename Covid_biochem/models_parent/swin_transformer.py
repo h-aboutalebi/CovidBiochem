@@ -195,7 +195,7 @@ class StageModule(nn.Module):
 
 
 class SwinTransformer(nn.Module):
-    def __init__(self, *, hidden_dim, layers, heads, channels=3, num_classes=1000, head_dim=32, window_size=7,
+    def __init__(self, *, hidden_dim, layers, heads, channels=3, num_classes=1000, head_dim=32, window_size=8,
                  downscaling_factors=(4, 2, 2, 2), relative_pos_embedding=True):
         super().__init__()
 
