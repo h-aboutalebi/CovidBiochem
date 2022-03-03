@@ -56,9 +56,10 @@ class Swin:
                     accuracy = correct / batch_size
                     tepoch.set_postfix(loss=loss.item(), accuracy=100. * accuracy)
                     sleep(0.1)
-                tepoch.set_postfix(loss=total_loss, accuracy=total_correct / total)
             scheduler.step()
-            logger.info("epoch {}. loss: {}".format(epoch, total_loss))
+            logger.info(
+                "epoch {}. Average Train Loss: {}, Average Train Accuracy {}".format(
+                    epoch, round(total_loss, 3), round(total_correct / total, 3)))
             if (epoch % 10 == 0):
                 self.predict(testloader)
                 # File_Manager.save_torch_model("weights.pth", self.model)
@@ -75,4 +76,4 @@ class Swin:
                 correct += (predicted == labels.to(self.device)).sum().item()
                 total += len(labels)
             accuracy = correct / total
-            logger.info("Accuracy on test set: {}".format(accuracy))
+        logger.info("Accuracy on test set: {}".format(accuracy))
