@@ -42,7 +42,7 @@ parser.add_argument('--epochs', type=int, default=10, help='number of epochs')
 parser.add_argument('-b', "--batch_size", type=int, default=32)
 
 # *********************************** Optimizer Setting **********************************************
-parser.add_argument('--lr', type=float, default=0.0008, help="Initial learning rate")
+parser.add_argument('--lr', type=float, default=0.008, help="Initial learning rate")
 parser.add_argument('--milestones',
                     type=int,
                     nargs='+',
