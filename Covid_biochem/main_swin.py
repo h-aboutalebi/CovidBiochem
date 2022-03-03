@@ -38,7 +38,7 @@ parser.add_argument('-m',
                     type=str,
                     default="swintransformer",
                     help='Available Model: swintransformer')
-parser.add_argument('--epochs', type=int, default=1, help='number of epochs')
+parser.add_argument('--epochs', type=int, default=10, help='number of epochs')
 parser.add_argument('-b', "--batch_size", type=int, default=32)
 
 # *********************************** Optimizer Setting **********************************************
@@ -150,12 +150,11 @@ model.create_model(device=device)
 
 #Training model:
 model.train_model(train_set=train_loader,
-            testset=test_loader,
-            epochs=args.epochs,
-            lr=args.lr,
-            milestones=args.milestones,
-            gamma=args.gamma,
-            momentum=args.momentum,
-            weight_decay=args.weight_decay)
+                  testset=test_loader,
+                  epochs=args.epochs,
+                  lr=args.lr,
+                  milestones=args.milestones,
+                  gamma=args.gamma,
+                  momentum=args.momentum,
+                  weight_decay=args.weight_decay)
 test_pred = model.test_model(test_loader)
-
