@@ -13,7 +13,7 @@ class Swin:
 
     def __init__(self, num_classes, device):
         self.num_classes = num_classes
-        model = swin_t(num_classes=self.num_classes)
+        model = swin_t(num_classes=self.num_classes, channels=1)
         self.model = model.to(device)
         self.criterion = nn.CrossEntropyLoss()
         self.device = device

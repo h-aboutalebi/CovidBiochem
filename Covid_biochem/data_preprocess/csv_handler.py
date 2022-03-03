@@ -8,18 +8,18 @@ from data_preprocess.multi_column_encoder import MultiColumnLabelEncoder
 
 class CSVHandler:
 
-    def __init__(self, csv_file, useless_cols_list, target_col):
+    def __init__(self, csv_file, useless_cols_list, target_col, input_cols=None):
         self.csv_file = csv_file
         self.df = pd.read_csv(csv_file)
         self.df = shuffle(self.df)
+        self.input_cols = input_cols
         self.correct_col_names()
         self.cat_cols, self.num_cols = None, None
         self.preprocess_csv(useless_cols_list=useless_cols_list)
         self.remove_target_col(target_col)
 
     def correct_col_names(self):
-        self.df = self.df.rename(
-            columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
+        self.df = self.df.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
 
     def remove_target_col(self, target_col):
         if (target_col in self.cat_cols):
@@ -32,6 +32,7 @@ class CSVHandler:
     def preprocess_csv(self, useless_cols_list):
         self.drop_cols(useless_cols_list)
         self.cat_cols, self.num_cols = self.identify_d_type()
+        self.remove_input_col()
         self.handle_bools_cols()
         self.do_imputation()
         self.encode_cat_cols()
@@ -50,18 +51,19 @@ class CSVHandler:
         self.apply_imputation_cat()
 
     def apply_imputation_cat(self):
-        imp = SimpleImputer(missing_values=np.nan,
-                            strategy='constant',
-                            fill_value="NA")
-        self.df[self.cat_cols] = pd.DataFrame(
-            imp.fit_transform(self.df[self.cat_cols]))
+        imp = SimpleImputer(missing_values=np.nan, strategy='constant', fill_value="NA")
+        self.df[self.cat_cols] = pd.DataFrame(imp.fit_transform(self.df[self.cat_cols]))
 
     def apply_imputation_num(self):
-        imp = SimpleImputer(missing_values=np.nan,
-                            strategy='constant',
-                            fill_value=-1)
-        self.df[self.num_cols] = pd.DataFrame(
-            imp.fit_transform(self.df[self.num_cols]))
+        imp = SimpleImputer(missing_values=np.nan, strategy='constant', fill_value=-1)
+        self.df[self.num_cols] = pd.DataFrame(imp.fit_transform(self.df[self.num_cols]))
+
+    def remove_input_col(self):
+        if (self.input_cols is not None):
+            if (self.input_cols in self.cat_cols):
+                self.cat_cols.remove(self.input_cols)
+            elif (self.input_cols in self.num_cols):
+                self.num_cols.remove(self.input_cols)
 
     def identify_d_type(self):
         num_cols = list(self.df.select_dtypes("number").columns)

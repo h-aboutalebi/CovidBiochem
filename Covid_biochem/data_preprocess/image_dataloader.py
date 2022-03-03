@@ -1,6 +1,10 @@
 from torch.utils.data import Dataset
 import os
 import cv2
+import glob
+import numpy as np
+from numpy import expand_dims
+import torchvision.transforms as transforms
 
 
 class DataLoaderCXR(Dataset):
@@ -20,7 +24,11 @@ class DataLoaderCXR(Dataset):
 
     def __getitem__(self, idx):
         path_name = os.path.join(self.image_folder, str(self.patient_ids[idx]))
-        image_name = os.path.join(path_name, r'*.jpg')
+        image_name = glob.glob(os.path.join(path_name, r'*.jpg'))[0]
         image = cv2.imread(image_name, 0)
+        # image = cv2.imread(image_name)
         image = cv2.resize(image, (self.img_size, self.img_size))
+        image = expand_dims(image, axis=2)
+        # image=image.reshape(image.shape[2],self.img_size,self.img_size)
+        image = transforms.Compose([transforms.ToTensor()])(image)
         return image, self.targets[idx]

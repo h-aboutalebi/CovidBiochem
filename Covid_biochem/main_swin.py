@@ -112,7 +112,8 @@ logger.info("device is set for: {}".format(device))
 csv_file = args.csv_path
 csv_handle = CSVHandler(csv_file,
                         useless_cols_list=args.useless_cols,
-                        target_col=args.target_col)
+                        target_col=args.target_col,
+                        input_cols=args.input_col)
 train_set, test_set = train_test_split(csv_handle.df,
                                        test_size=args.test_size,
                                        random_state=args.seed)
