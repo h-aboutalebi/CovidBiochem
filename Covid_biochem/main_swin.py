@@ -38,8 +38,8 @@ parser.add_argument('-m',
                     type=str,
                     default="swintransformer",
                     help='Available Model: swintransformer')
-parser.add_argument('--epochs', type=int, default=30, help='number of epochs')
-parser.add_argument('-b', "--batch_size", type=int, default=16)
+parser.add_argument('--epochs', type=int, default=1, help='number of epochs')
+parser.add_argument('-b', "--batch_size", type=int, default=32)
 
 # *********************************** Optimizer Setting **********************************************
 parser.add_argument('--lr', type=float, default=0.008, help="Initial learning rate")
@@ -157,4 +157,5 @@ model.train_model(train_set=train_loader,
             gamma=args.gamma,
             momentum=args.momentum,
             weight_decay=args.weight_decay)
+test_pred = model.test_model(test_loader)
 

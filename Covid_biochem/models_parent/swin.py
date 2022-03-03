@@ -1,6 +1,9 @@
 import torch.optim as optim
 import torch.nn as nn
 import logging
+import torch
+from tqdm import tqdm
+from time import sleep
 from models_parent.swin_transformer import swin_t
 from torch.optim.lr_scheduler import MultiStepLR
 
@@ -29,29 +32,46 @@ class Swin:
         for epoch in range(1, epochs + 1):
             # import ipdb;ipdb.set_trace()
             total_loss = 0
-            for i, data in enumerate(trainloader, 1):
-                self.model.train()
-                optimizer.zero_grad()
-                inputs, labels = data
-                outputs = self.model(inputs.to(self.device))
-                loss = self.criterion(outputs, labels.to(self.device))
-                total_loss += loss.item()
-                loss.backward()
-                loss.detach_()
-            logger.info("epoch {}. loss: {}".format(epoch, total_loss))
+            with tqdm(trainloader, unit="batch") as tepoch:
+                total_loss = 0
+                total_correct=0
+                total=0
+                for i, data in enumerate(tepoch, 1):
+                    tepoch.set_description(f"Epoch {epoch}")
+                    self.model.train()
+                    optimizer.zero_grad()
+                    inputs, labels = data
+                    batch_size = inputs.shape[0]
+                    outputs = self.model(inputs.to(self.device))
+                    _, predicted = torch.max(outputs.data, 1)
+                    correct = (predicted == labels.to(self.device)).sum().item()
+                    total_correct+=correct
+                    total+=batch_size
+                    accuracy = correct / batch_size
+                    loss = self.criterion(outputs, labels.to(self.device))
+                    total_loss += loss.item() / batch_size
+                    loss.backward()
+                    optimizer.step()
+                    loss.detach_()
+                    tepoch.set_postfix(loss=loss.item(), accuracy=100. * accuracy)
+                    sleep(0.1)
+                tepoch.set_postfix(loss=total_loss, accuracy=total_correct/total)
             scheduler.step()
+            logger.info("epoch {}. loss: {}".format(epoch, total_loss))
             if (epoch % 10 == 0):
                 self.predict(testloader)
                 # File_Manager.save_torch_model("weights.pth", self.model)
 
     def predict(self, testloader):
-        labels_list = []
-        outputs_list = []
-        for i, data in enumerate(testloader, 1):
-            self.model.test()
-            inputs, labels = data
-            outputs = self.model(inputs.to(self.device))
-            labels_list.append(labels)
-            outputs_list.append(outputs)
-        accuracy = pytorch_accuracy(labels_list, outputs_list)
-        logger.info("Accuracy on test set: {}".format(accuracy))
+        with torch.no_grad():
+            correct=0
+            total=0
+            for i, data in enumerate(testloader, 1):
+                self.model.eval()
+                inputs, labels = data
+                outputs = self.model(inputs.to(self.device))
+                _, predicted = torch.max(outputs.data, 1)
+                correct += (predicted == labels.to(self.device)).sum().item()
+                total+=len(labels)
+            accuracy = correct/total
+            logger.info("Accuracy on test set: {}".format(accuracy))

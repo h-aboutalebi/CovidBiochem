@@ -70,6 +70,8 @@ class Model_select():
             print_metrics(test_set[self.target_col], test_pred, "Holdout")
         elif(self.model_name == "tabtransformer"):
             test_pred = self.model.predict(test_set)
+        elif(self.model_name == "swintransformer"):
+            test_pred = self.model.predict(test_set)
         else:
             raise Exception("Model not supported!")
         return test_pred
