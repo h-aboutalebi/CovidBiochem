@@ -29,13 +29,12 @@ def create_his(df, target):
     count_dict=dict(df[target].value_counts())
     labels, counts=[],[]
     for key in count_dict.keys():
-        labels.append(key)
+        labels.append(str(key))
         counts.append(count_dict[key])
+    labels.append("None")
+    counts.append(df[target].isna().sum())
     fig, ax = plt.subplots()
     plt.ylim([0, max(counts)+0.1*max(counts)])
-    labels.append("None")
-    # plt.title(target)
-    counts.append(df[target].isna().sum())
     bars = ax.bar(labels, counts)
     hist_font(ax, bars)
 

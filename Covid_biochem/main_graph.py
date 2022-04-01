@@ -21,9 +21,7 @@ parser.add_argument('--csv_path', default=os.path.join(dirname, "pytorch_tabular
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Dataset Setting ********************************************
-parser.add_argument('-t', '--target_col', type=str, default="last.status",
-                    help='Target column to be used for prediction on Biochem.'
-                    'If your col name  has special character other than "_", remove them in the name')
+parser.add_argument('-t', '--target_col', type=str, default='therapeutic.exnox.Boolean')
 
 
 args = parser.parse_args()
