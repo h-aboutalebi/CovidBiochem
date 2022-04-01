@@ -9,6 +9,7 @@ from utility.file_manager import File_Manager
 from utility.utils import seed_everything
 
 logger = logging.getLogger(__name__)
+logging.getLogger('matplotlib.font_manager').disabled = True
 parser = argparse.ArgumentParser(description='Covid-Net BioChem')
 dirname = os.path.dirname(__file__)
 
@@ -20,7 +21,7 @@ parser.add_argument('--csv_path', default=os.path.join(dirname, "pytorch_tabular
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Dataset Setting ********************************************
-parser.add_argument('-t', '--target_col', type=str, default="therapeuticexnoxBoolean",
+parser.add_argument('-t', '--target_col', type=str, default="last.status",
                     help='Target column to be used for prediction on Biochem.'
                     'If your col name  has special character other than "_", remove them in the name')
 
@@ -52,4 +53,4 @@ logger.info("=" * len(header))
 
 csv_file = args.csv_path
 df = pd.read_csv(csv_file)
-create_his(df,args.target)
+create_his(df,args.target_col)
