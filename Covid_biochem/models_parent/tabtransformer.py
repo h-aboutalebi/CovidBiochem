@@ -1,4 +1,3 @@
-from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, accuracy_score
 from pytorch_tabular_main.pytorch_tabular.models.tab_transformer.config import TabTransformerConfig
 from pytorch_tabular_main.pytorch_tabular.config import ModelConfig, ExperimentConfig, OptimizerConfig, TrainerConfig, DataConfig
 from pytorch_tabular_main.pytorch_tabular.tabular_model import TabularModel
@@ -93,18 +92,4 @@ class Tabtransformer:
 
     def predict(self, test_set):
         prediction = self.tabular_model.predict(test_set)
-        conf_matrix = confusion_matrix(test_set[self.target_name],
-                                       prediction["prediction"])
-        precisions = precision_score(test_set[self.target_name], prediction["prediction"])
-        recall = recall_score(test_set[self.target_name], prediction["prediction"])
-        f1 = f1_score(test_set[self.target_name],
-                      prediction["prediction"],
-                      average='micro')
-        accuracy = accuracy_score(test_set[self.target_name], prediction["prediction"])
-        return {
-            "confusion matrix": conf_matrix,
-            "Accuracy": accuracy,
-            "precision": precisions,
-            "recall": recall,
-            "F1 score": f1
-        }
+        return prediction["prediction"]

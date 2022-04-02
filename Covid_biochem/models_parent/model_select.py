@@ -67,11 +67,10 @@ class Model_select():
     def test_model(self, test_set):
         if (self.model_name == "lightgbm"):
             test_pred = self.model.predict(test_set.drop(columns=self.target_col))
-            print_metrics(test_set[self.target_col], test_pred, "Holdout")
+            print_metrics(test_set[self.target_col], test_pred)
         elif (self.model_name == "tabtransformer"):
             test_pred = self.model.predict(test_set)
-            for key in test_pred:
-                print("{}: {}".format(key, test_pred[key]))
+            print_metrics(test_set[self.target_col], test_pred)
         elif (self.model_name == "swintransformer"):
             test_pred = self.model.predict(test_set)
         else:
