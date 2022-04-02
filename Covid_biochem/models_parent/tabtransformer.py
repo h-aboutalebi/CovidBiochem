@@ -1,28 +1,25 @@
-import torch
-import numpy as np
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, accuracy_score
 from pytorch_tabular_main.pytorch_tabular.models.tab_transformer.config import TabTransformerConfig
 from pytorch_tabular_main.pytorch_tabular.config import ModelConfig, ExperimentConfig, OptimizerConfig, TrainerConfig, DataConfig
 from pytorch_tabular_main.pytorch_tabular.tabular_model import TabularModel
 from pytorch_tabular_main.pytorch_tabular.utils import get_balanced_sampler, get_class_weighted_cross_entropy
-from torch.functional import norm
-from sklearn.datasets import fetch_covtype
 
 
 class Tabtransformer:
 
     def __init__(
-            self,
-            num_classes,
-            target_name,
-            num_col_names,
-            cat_col_names,
-            shared_embedding_fraction=0.25,
-            share_embedding=True,
-            share_embedding_strategy="add",
-            task="classification",
-            init_lr=0.001,
-            lr_scheduler=None,
-            ):
+        self,
+        num_classes,
+        target_name,
+        num_col_names,
+        cat_col_names,
+        shared_embedding_fraction=0.25,
+        share_embedding=True,
+        share_embedding_strategy="add",
+        task="classification",
+        init_lr=0.001,
+        lr_scheduler=None,
+    ):
         self.target_name = target_name
         self.data_config = DataConfig(
             target=[target_name],
@@ -38,7 +35,10 @@ class Tabtransformer:
             share_embedding=share_embedding,
             share_embedding_strategy=share_embedding_strategy,
             shared_embedding_fraction=shared_embedding_fraction,
-            metrics_params=[{"num_classes": num_classes, "average": "macro"}, {}],
+            metrics_params=[{
+                "num_classes": num_classes,
+                "average": "macro"
+            }, {}],
             learning_rate=init_lr,
         )
 
@@ -48,20 +48,20 @@ class Tabtransformer:
         #                                           log_target="wandb",
         #                                           log_logits=True)
         self.optimizer_config = OptimizerConfig(lr_scheduler=lr_scheduler)
-        self.tabular_model=None
+        self.tabular_model = None
 
     def train(
-        self, 
+        self,
         train,
-        gradient_clip_val, 
-        epochs, 
+        gradient_clip_val,
+        epochs,
         batch_size,
         early_stopping_patience,
         checkpoints_save_top_k,
         auto_lr_find,
-        cuda_n, 
+        cuda_n,
         seed,
-        ):
+    ):
 
         trainer_config = TrainerConfig(
             gpus=[int(cuda_n)],
@@ -73,7 +73,7 @@ class Tabtransformer:
             max_epochs=epochs,
             batch_size=batch_size,
             checkpoints_save_top_k=checkpoints_save_top_k,
-            )
+        )
 
         tabular_model = TabularModel(
             data_config=self.data_config,
@@ -89,7 +89,22 @@ class Tabtransformer:
             # loss=cust_loss,
             # train_sampler=sampler,
             seed=seed)
-        self.tabular_model=tabular_model
-        
+        self.tabular_model = tabular_model
+
     def predict(self, test_set):
-        self.tabular_model.evaluate(test_set)
+        prediction = self.tabular_model.predict(test_set)
+        conf_matrix = confusion_matrix(test_set[self.target_name],
+                                       prediction["prediction"])
+        precisions = precision_score(test_set[self.target_name], prediction["prediction"])
+        recall = recall_score(test_set[self.target_name], prediction["prediction"])
+        f1 = f1_score(test_set[self.target_name],
+                      prediction["prediction"],
+                      average='micro')
+        accuracy = accuracy_score(test_set[self.target_name], prediction["prediction"])
+        return {
+            "confusion matrix": conf_matrix,
+            "Accuracy": accuracy,
+            "precision": precisions,
+            "recall": recall,
+            "F1 score": f1
+        }
