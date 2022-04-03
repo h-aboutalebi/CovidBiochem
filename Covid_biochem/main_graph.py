@@ -4,8 +4,7 @@ import argparse
 import logging
 import datetime
 
-from data_preprocess.csv_handler import CSVHandler
-from Covid_biochem.graph.his import create_his
+from Covid_biochem.graph.his import create_his_num,create_his
 from utility.file_manager import File_Manager
 from utility.utils import seed_everything, identify_d_type, correct_col_names
 
@@ -15,7 +14,7 @@ parser = argparse.ArgumentParser(description='Covid-Net BioChem')
 dirname = os.path.dirname(__file__)
 
 # *********************************** General Setting *********************************************
-parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/Desktop/images',
+parser.add_argument('-o', '--output_path', default=os.path.expanduser('~') + '/Desktop/graph_numerical_data',
                     help='output path for files produced by the agent')
 parser.add_argument('--csv_path', default=os.path.join(dirname, "pytorch_tabular_main/data/clinical_data.csv"),
                     help='path of csv file for BioChem')
@@ -55,3 +54,5 @@ df = correct_col_names(df)
 cat_cols, num_cols = identify_d_type(df)
 for cat in cat_cols:
     create_his(df, cat, args.output_path)
+for num in num_cols:
+    create_his_num(df, num, args.output_path)
