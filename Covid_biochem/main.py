@@ -1,4 +1,3 @@
-from lightgbm import early_stopping
 import torch
 import os
 import argparse
@@ -24,7 +23,7 @@ parser.add_argument('--csv_path',
                     default=os.path.join(dirname,
                                          "pytorch_tabular_main/data/clinical_data.csv"),
                     help='path of csv file for BioChem')
-parser.add_argument('--cuda_n', type=str, default="6", help='random seed (default: 4)')
+parser.add_argument('--cuda_n', type=str, default="3", help='random seed (default: 4)')
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Model Setting **********************************************
@@ -69,6 +68,7 @@ parser.add_argument('--test_size',
                     type=float,
                     default=0.2,
                     help='test size for experiment')
+parser.add_argument('--n_neighbors', type=int, default=5, help='KNN imputaor')
 parser.add_argument(
     '-t',
     '--target_col',
@@ -113,7 +113,8 @@ logger.info("device is set for: {}".format(device))
 csv_file = args.csv_path
 csv_handle = CSVHandler(csv_file,
                         useless_cols_list=args.useless_cols,
-                        target_col=args.target_col)
+                        target_col=args.target_col,
+                        n_neighbors=args.n_neighbors)
 train_set, test_set = train_test_split(csv_handle.df,
                                        test_size=args.test_size,
                                        random_state=args.seed,

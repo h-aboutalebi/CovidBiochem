@@ -25,7 +25,7 @@ class Tabtransformer:
             continuous_cols=num_col_names,
             categorical_cols=cat_col_names,
             continuous_feature_transform=None,  # "quantile_normal",
-            normalize_continuous_features=False,
+            normalize_continuous_features=False
         )
 
         self.model_config = TabTransformerConfig(

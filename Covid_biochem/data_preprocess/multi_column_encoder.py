@@ -18,7 +18,7 @@ class MultiColumnLabelEncoder:
         output = X.copy()
         if self.columns is not None:
             for col in self.columns:
-                print(col)
+                # print(col)
                 output[col] = LabelEncoder().fit_transform(output[col])
         else:
             for colname, col in output.iteritems():
