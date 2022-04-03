@@ -39,19 +39,20 @@ class Model_select():
         if (self.model_name == "lightgbm"):
             self.model.fit(train_set.drop(columns=self.target_col),
                            train_set[self.target_col],
-                           categorical_feature=self.categorical_feature)
+                           categorical_feature=self.categorical_feature,
+                           eval_set=(kwargs["val_set"].drop(columns=self.target_col),
+                                     kwargs["val_set"][self.target_col]))
         elif (self.model_name == "tabtransformer"):
-            self.model.train(
-                train_set,
-                gradient_clip_val=kwargs["gradient_clip_val"],
-                epochs=kwargs["epochs"],
-                batch_size=kwargs["batch_size"],
-                early_stopping_patience=kwargs["early_stopping_patience"],
-                checkpoints_save_top_k=kwargs["checkpoints_save_top_k"],
-                auto_lr_find=kwargs["auto_lr_find"],
-                cuda_n=kwargs["cuda_n"],
-                seed=kwargs["seed"],
-            )
+            self.model.train(train_set,
+                             gradient_clip_val=kwargs["gradient_clip_val"],
+                             epochs=kwargs["epochs"],
+                             batch_size=kwargs["batch_size"],
+                             early_stopping_patience=kwargs["early_stopping_patience"],
+                             checkpoints_save_top_k=kwargs["checkpoints_save_top_k"],
+                             auto_lr_find=kwargs["auto_lr_find"],
+                             cuda_n=kwargs["cuda_n"],
+                             seed=kwargs["seed"],
+                             val_set=kwargs["val_set"])
         elif (self.model_name == "swintransformer"):
             self.model.train(trainloader=train_set,
                              testloader=kwargs["testset"],

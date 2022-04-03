@@ -60,6 +60,7 @@ class Tabtransformer:
         auto_lr_find,
         cuda_n,
         seed,
+        val_set
     ):
 
         trainer_config = TrainerConfig(
@@ -84,7 +85,7 @@ class Tabtransformer:
         # sampler = get_balanced_sampler(train[self.target_name].values.ravel())
         tabular_model.fit(
             train=train,
-            # validation=val,
+            validation=val_set,
             # loss=cust_loss,
             # train_sampler=sampler,
             seed=seed)

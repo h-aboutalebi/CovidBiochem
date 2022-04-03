@@ -68,6 +68,10 @@ parser.add_argument('--test_size',
                     type=float,
                     default=0.2,
                     help='test size for experiment')
+parser.add_argument('--val_size',
+                    type=float,
+                    default=0.1,
+                    help='validation size for experiment')
 parser.add_argument('--n_neighbors', type=int, default=5, help='KNN imputaor')
 parser.add_argument(
     '-t',
@@ -80,9 +84,13 @@ parser.add_argument('-u',
                     '--useless_cols',
                     nargs='+',
                     default=[
+                        #categorical features:
                         "to_patient_id", "covid19_statuses", "blood_pHbetween735and745",
                         "blood_pHbelow735", "blood_pHabove745", "A1C8to99", "A1Cover10",
-                        "A1C66to79", "A1Cunder65", "A1Cover65", "visit_start_datetime"
+                        "A1C66to79", "A1Cunder65", "A1Cover65", "visit_start_datetime",
+                        #numerical features:
+                        "invasive_vent_days","45484_HemoglobinA1cHemoglobintotalinBlood",
+                        "332544_pHofArterialbloodadjustedtopatientsactualtemperature"                                           
                     ],
                     help='Useless columns to be removed for prediction on Biochem.')
 
@@ -123,6 +131,10 @@ train_set, test_set = train_test_split(csv_handle.df,
                                        test_size=args.test_size,
                                        random_state=args.seed,
                                        stratify=csv_handle.df[args.target_col])
+train_set, val_set = train_test_split(csv_handle.df,
+                                       test_size=args.val_size,
+                                       random_state=args.seed,
+                                       stratify=csv_handle.df[args.target_col])
 num_classes = csv_handle.df[args.target_col].nunique()
 model = Model_select(model_name=args.model_name,
                      num_col_names=csv_handle.num_cols,
@@ -144,5 +156,6 @@ model.train_model(
     auto_lr_find=args.auto_lr_find,
     cuda_n=args.cuda_n,
     seed=args.seed,
+    val_set=val_set
 )
 test_pred = model.test_model(test_set)
