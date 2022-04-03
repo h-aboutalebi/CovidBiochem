@@ -1,8 +1,8 @@
 import random
 import numpy as np
 import os
+import re
 import torch
-import pandas as pd
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, accuracy_score
 
 
@@ -48,3 +48,11 @@ def print_metrics(y_true, y_pred):
     }
     for key in results:
         print("{}: {}".format(key, results[key]))
+
+def correct_col_names(df):
+     return df.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
+
+def identify_d_type(df):
+    num_cols = list(df.select_dtypes("number").columns)
+    cat_cols = list(df.select_dtypes(exclude=["number"]).columns)
+    return cat_cols, num_cols

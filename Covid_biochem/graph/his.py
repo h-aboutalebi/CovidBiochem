@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
+import os
 
-
-def  hist_font(ax,bars):
+def hist_font(ax, bars):
     # Axis formatting.
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
@@ -17,7 +17,7 @@ def  hist_font(ax,bars):
     for bar in bars:
         ax.text(
             bar.get_x() + bar.get_width() / 2,
-            bar.get_height()+ 50,
+            bar.get_height() + 50,
             round(bar.get_height(), 1),
             horizontalalignment='center',
             color=bar_color,
@@ -25,16 +25,16 @@ def  hist_font(ax,bars):
         )
 
 
-def create_his(df, target):
-    count_dict=dict(df[target].value_counts())
-    labels, counts=[],[]
+def create_his(df, target, output_path):
+    count_dict = dict(df[target].value_counts())
+    labels, counts = [], []
     for key in count_dict.keys():
         labels.append(str(key))
         counts.append(count_dict[key])
     labels.append("None")
     counts.append(df[target].isna().sum())
     fig, ax = plt.subplots()
-    plt.ylim([0, max(counts)+0.1*max(counts)])
+    plt.ylim([0, max(counts) + 0.1 * max(counts)])
     bars = ax.bar(labels, counts)
     hist_font(ax, bars)
 
@@ -45,5 +45,4 @@ def create_his(df, target):
                  weight='bold')
 
     fig.tight_layout()
-    plt.show()
-
+    plt.savefig(os.path.join(output_path, str(target)+'.png'))
