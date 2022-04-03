@@ -79,7 +79,11 @@ parser.add_argument(
 parser.add_argument('-u',
                     '--useless_cols',
                     nargs='+',
-                    default=["to_patient_id"],
+                    default=[
+                        "to_patient_id", "covid19_statuses", "blood_pHbetween735and745",
+                        "blood_pHbelow735", "blood_pHabove745", "A1C8to99", "A1Cover10",
+                        "A1C66to79", "A1Cunder65", "A1Cover65", "visit_start_datetime"
+                    ],
                     help='Useless columns to be removed for prediction on Biochem.')
 
 args = parser.parse_args()
