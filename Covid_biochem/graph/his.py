@@ -16,7 +16,7 @@ def hist_font(ax, bars=None):
     for bar in bars:
         ax.text(
             bar.get_x() + bar.get_width() / 2,
-            bar.get_height() + 50,
+            bar.get_height() + 30,
             int(round(bar.get_height(), 1)),
             horizontalalignment='center',
             color=bar_color,
@@ -49,7 +49,7 @@ def create_his(df, target, output_path):
 def create_his_num(df, target, output_path):
     df[target]=df[target].fillna(-10)
     fig, ax = plt.subplots()
-    n,bins,patches=ax.hist(df[target])
+    n,bins,patches=ax.hist(df[target],bins=15)
     plt.ylim([0,max(patches, key=lambda x: x.get_height()).get_height()*1.2])
     hist_font(ax,patches)
     ax.set_xlabel('Values', labelpad=15, color='#333333')
