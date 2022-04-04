@@ -25,8 +25,9 @@ class Model_select():
         elif (self.model_name == "XGBoost"):
             self.model = XGBClassifier()
             self.model.set_params(seed=self.seed, tree_method='gpu_hist')
-        elif (self.model_name == "tabtransformer"):
+        elif (self.model_name == "tabtransformer" or self.model_name == "FTTransformer"):
             self.model = Tabtransformer(
+                model_name=self.model_name,
                 num_classes=self.num_classes,
                 target_name=self.target_col,
                 num_col_names=self.num_col_names,
@@ -53,7 +54,7 @@ class Model_select():
                                       train_set[self.target_col]),
                                      (kwargs["val_set"].drop(columns=self.target_col),
                                       kwargs["val_set"][self.target_col])])
-        elif (self.model_name == "tabtransformer"):
+        elif (self.model_name == "tabtransformer" or self.model_name == "FTTransformer"):
             self.model.train(train_set,
                              gradient_clip_val=kwargs["gradient_clip_val"],
                              epochs=kwargs["epochs"],
@@ -83,7 +84,7 @@ class Model_select():
         elif (self.model_name == "XGBoost"):
             test_pred = self.model.predict(test_set.drop(columns=self.target_col))
             print_metrics(test_set[self.target_col], test_pred)
-        elif (self.model_name == "tabtransformer"):
+        elif (self.model_name == "tabtransformer" or self.model_name == "FTTransformer"):
             test_pred = self.model.predict(test_set)
             print_metrics(test_set[self.target_col], test_pred)
         elif (self.model_name == "swintransformer"):

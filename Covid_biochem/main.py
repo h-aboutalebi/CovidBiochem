@@ -27,11 +27,12 @@ parser.add_argument('--cuda_n', type=str, default="3", help='random seed (defaul
 parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
 
 # *********************************** Model Setting **********************************************
-parser.add_argument('-m',
-                    '--model_name',
-                    type=str,
-                    default="lightgbm",
-                    help='Available Model: lightgbm, tabtransformer, XGBoost')
+parser.add_argument(
+    '-m',
+    '--model_name',
+    type=str,
+    default="lightgbm",
+    help='Available Model: lightgbm, tabtransformer, XGBoost, FTTransformer')
 parser.add_argument('--gradient_clip_val',
                     type=float,
                     default=0.0,
@@ -46,7 +47,8 @@ parser.add_argument('--checkpoints_save_top_k',
                     type=int,
                     default=0,
                     help='Number of best models to save')
-parser.add_argument('--lr', type=float, default=0.0004, help="Initial learning rate")
+parser.add_argument('--lr', type=float, default=0.0004,
+                    help="Initial learning rate")  #0.0004
 parser.add_argument(
     '--auto_lr_find',
     action="store_true",
