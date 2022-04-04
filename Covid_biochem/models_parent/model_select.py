@@ -1,4 +1,5 @@
 import lightgbm as lgb
+from xgboost import XGBClassifier
 from models_parent.swin import Swin
 from models_parent.tabtransformer import Tabtransformer
 from utility.utils import print_metrics
@@ -21,6 +22,9 @@ class Model_select():
     def create_model(self, **kwargs):
         if (self.model_name == "lightgbm"):
             self.model = lgb.LGBMClassifier(random_state=self.seed)
+        elif (self.model_name == "XGBoost"):
+            self.model = XGBClassifier()
+            self.model.set_params(seed=self.seed, tree_method='gpu_hist')
         elif (self.model_name == "tabtransformer"):
             self.model = Tabtransformer(
                 num_classes=self.num_classes,
@@ -42,6 +46,13 @@ class Model_select():
                            categorical_feature=self.categorical_feature,
                            eval_set=(kwargs["val_set"].drop(columns=self.target_col),
                                      kwargs["val_set"][self.target_col]))
+        elif (self.model_name == "XGBoost"):
+            self.model.fit(train_set.drop(columns=self.target_col),
+                           train_set[self.target_col],
+                           eval_set=[(train_set.drop(columns=self.target_col),
+                                      train_set[self.target_col]),
+                                     (kwargs["val_set"].drop(columns=self.target_col),
+                                      kwargs["val_set"][self.target_col])])
         elif (self.model_name == "tabtransformer"):
             self.model.train(train_set,
                              gradient_clip_val=kwargs["gradient_clip_val"],
@@ -67,6 +78,9 @@ class Model_select():
 
     def test_model(self, test_set):
         if (self.model_name == "lightgbm"):
+            test_pred = self.model.predict(test_set.drop(columns=self.target_col))
+            print_metrics(test_set[self.target_col], test_pred)
+        elif (self.model_name == "XGBoost"):
             test_pred = self.model.predict(test_set.drop(columns=self.target_col))
             print_metrics(test_set[self.target_col], test_pred)
         elif (self.model_name == "tabtransformer"):

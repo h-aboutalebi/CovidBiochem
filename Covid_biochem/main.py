@@ -31,7 +31,7 @@ parser.add_argument('-m',
                     '--model_name',
                     type=str,
                     default="lightgbm",
-                    help='Available Model: lightgbm, tabtransformer')
+                    help='Available Model: lightgbm, tabtransformer, XGBoost')
 parser.add_argument('--gradient_clip_val',
                     type=float,
                     default=0.0,
@@ -80,19 +80,29 @@ parser.add_argument(
     default="laststatus",
     help='Target column to be used for prediction on Biochem.'
     'If your col name  has special character other than "_", remove them in the name')
-parser.add_argument('-u',
-                    '--useless_cols',
-                    nargs='+',
-                    default=[
-                        #categorical features:
-                        "to_patient_id", "covid19_statuses", "blood_pHbetween735and745",
-                        "blood_pHbelow735", "blood_pHabove745", "A1C8to99", "A1Cover10",
-                        "A1C66to79", "A1Cunder65", "A1Cover65", "visit_start_datetime",
-                        #numerical features:
-                        "invasive_vent_days","45484_HemoglobinA1cHemoglobintotalinBlood",
-                        "332544_pHofArterialbloodadjustedtopatientsactualtemperature"                                           
-                    ],
-                    help='Useless columns to be removed for prediction on Biochem.')
+parser.add_argument(
+    '-u',
+    '--useless_cols',
+    nargs='+',
+    default=[
+        #categorical features:
+        "to_patient_id",
+        "covid19_statuses",
+        "blood_pHbetween735and745",
+        "blood_pHbelow735",
+        "blood_pHabove745",
+        "A1C8to99",
+        "A1Cover10",
+        "A1C66to79",
+        "A1Cunder65",
+        "A1Cover65",
+        "visit_start_datetime",
+        #numerical features:
+        "invasive_vent_days",
+        "45484_HemoglobinA1cHemoglobintotalinBlood",
+        "332544_pHofArterialbloodadjustedtopatientsactualtemperature"
+    ],
+    help='Useless columns to be removed for prediction on Biochem.')
 
 args = parser.parse_args()
 seed_everything(args.seed)
@@ -132,9 +142,9 @@ train_set, test_set = train_test_split(csv_handle.df,
                                        random_state=args.seed,
                                        stratify=csv_handle.df[args.target_col])
 train_set, val_set = train_test_split(csv_handle.df,
-                                       test_size=args.val_size,
-                                       random_state=args.seed,
-                                       stratify=csv_handle.df[args.target_col])
+                                      test_size=args.val_size,
+                                      random_state=args.seed,
+                                      stratify=csv_handle.df[args.target_col])
 num_classes = csv_handle.df[args.target_col].nunique()
 model = Model_select(model_name=args.model_name,
                      num_col_names=csv_handle.num_cols,
@@ -146,16 +156,14 @@ model = Model_select(model_name=args.model_name,
                      seed=args.seed)
 
 model.create_model()
-model.train_model(
-    train_set,
-    gradient_clip_val=args.gradient_clip_val,
-    epochs=args.epochs,
-    batch_size=args.batch_size,
-    early_stopping_patience=args.early_stopping_patience,
-    checkpoints_save_top_k=args.checkpoints_save_top_k,
-    auto_lr_find=args.auto_lr_find,
-    cuda_n=args.cuda_n,
-    seed=args.seed,
-    val_set=val_set
-)
+model.train_model(train_set,
+                  gradient_clip_val=args.gradient_clip_val,
+                  epochs=args.epochs,
+                  batch_size=args.batch_size,
+                  early_stopping_patience=args.early_stopping_patience,
+                  checkpoints_save_top_k=args.checkpoints_save_top_k,
+                  auto_lr_find=args.auto_lr_find,
+                  cuda_n=args.cuda_n,
+                  seed=args.seed,
+                  val_set=val_set)
 test_pred = model.test_model(test_set)
