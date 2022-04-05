@@ -1,5 +1,6 @@
 from pytorch_tabular_main.pytorch_tabular.models.tab_transformer.config import TabTransformerConfig
 from pytorch_tabular_main.pytorch_tabular.models.ft_transformer.config import FTTransformerConfig
+from pytorch_tabular_main.pytorch_tabular.models.tabnet.config import TabNetModelConfig
 from pytorch_tabular_main.pytorch_tabular.config import ModelConfig, ExperimentConfig, OptimizerConfig, TrainerConfig, DataConfig
 from pytorch_tabular_main.pytorch_tabular.tabular_model import TabularModel
 from pytorch_tabular_main.pytorch_tabular.utils import get_balanced_sampler, get_class_weighted_cross_entropy
@@ -60,8 +61,18 @@ class Tabtransformer:
                 # embedding_initialization=None,
                 # embedding_bias=True,
                 share_embedding=share_embedding,
-                share_embedding_strategy=share_embedding_strategy,#"fraction"
+                share_embedding_strategy=share_embedding_strategy,  #"fraction"
                 shared_embedding_fraction=shared_embedding_fraction,
+                metrics_params=[{
+                    "num_classes": num_classes,
+                    "average": "macro"
+                }, {}],
+                learning_rate=init_lr,
+            )
+        elif (model_name == "tabnet"):
+            model_config = TabNetModelConfig(
+                task=task,
+                metrics=["f1", "accuracy"],
                 metrics_params=[{
                     "num_classes": num_classes,
                     "average": "macro"

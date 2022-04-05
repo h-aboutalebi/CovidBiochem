@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.preprocessing import QuantileTransformer, MinMaxScaler
 import numpy as np
 import re
 from sklearn.impute import SimpleImputer
@@ -9,7 +10,12 @@ from sklearn.impute import KNNImputer
 
 class CSVHandler:
 
-    def __init__(self, csv_file, useless_cols_list, target_col,input_cols=None, n_neighbors=5):
+    def __init__(self,
+                 csv_file,
+                 useless_cols_list,
+                 target_col,
+                 input_cols=None,
+                 n_neighbors=5):
         self.csv_file = csv_file
         self.df = pd.read_csv(csv_file)
         self.df = shuffle(self.df)
@@ -19,6 +25,7 @@ class CSVHandler:
         self.cat_cols, self.num_cols = None, None
         self.preprocess_csv(useless_cols_list=useless_cols_list)
         self.update_cat_num_list(target_col)
+        self.quantile_transformer = None
 
     def correct_col_names(self):
         self.df = self.df.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
@@ -75,3 +82,15 @@ class CSVHandler:
     def drop_cols(self, useless_cols_list):
         for col in useless_cols_list:
             self.df = self.df.drop(col, 1)
+
+    def initilize_quantile_transformer(self, train_set):
+        self.quantile_transformer = QuantileTransformer(output_distribution="normal")
+        data = pd.DataFrame(self.quantile_transformer.fit_transform(train_set))
+        return data
+        # self.quantile_transformer = MinMaxScaler()
+        # return pd.DataFrame(self.quantile_transformer.fit_transform(train_set))
+
+    def apply_quantile_transformer(self, test_set):
+        if (self.quantile_transformer is None):
+            raise Exception("Quantile transformer not initilized!")
+        return pd.DataFrame(self.quantile_transformer.transform(test_set))

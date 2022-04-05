@@ -1,5 +1,6 @@
 import lightgbm as lgb
 from xgboost import XGBClassifier
+from catboost import CatBoostClassifier
 from models_parent.swin import Swin
 from models_parent.tabtransformer import Tabtransformer
 from utility.utils import print_metrics
@@ -25,7 +26,13 @@ class Model_select():
         elif (self.model_name == "XGBoost"):
             self.model = XGBClassifier()
             self.model.set_params(seed=self.seed, tree_method='gpu_hist')
-        elif (self.model_name == "tabtransformer" or self.model_name == "FTTransformer"):
+        elif (self.model_name == "catboost"):
+            self.model = CatBoostClassifier(iterations=100,
+                                            learning_rate=0.35,
+                                            task_type="GPU",
+                                            devices=kwargs["cuda_n"])
+        elif (self.model_name == "tabtransformer" or self.model_name == "FTTransformer" or
+              self.model_name == "tabnet"):
             self.model = Tabtransformer(
                 model_name=self.model_name,
                 num_classes=self.num_classes,
@@ -54,7 +61,12 @@ class Model_select():
                                       train_set[self.target_col]),
                                      (kwargs["val_set"].drop(columns=self.target_col),
                                       kwargs["val_set"][self.target_col])])
-        elif (self.model_name == "tabtransformer" or self.model_name == "FTTransformer"):
+        elif (self.model_name == "catboost"):
+            self.model.fit(train_set.drop(columns=self.target_col),
+                           train_set[self.target_col],
+                           cat_features=self.categorical_feature)
+        elif (self.model_name == "tabtransformer" or self.model_name == "FTTransformer" or
+              self.model_name == "tabnet"):
             self.model.train(train_set,
                              gradient_clip_val=kwargs["gradient_clip_val"],
                              epochs=kwargs["epochs"],
@@ -84,7 +96,11 @@ class Model_select():
         elif (self.model_name == "XGBoost"):
             test_pred = self.model.predict(test_set.drop(columns=self.target_col))
             print_metrics(test_set[self.target_col], test_pred)
-        elif (self.model_name == "tabtransformer" or self.model_name == "FTTransformer"):
+        elif (self.model_name == "catboost"):
+            test_pred = self.model.predict(test_set.drop(columns=self.target_col))
+            print_metrics(test_set[self.target_col], test_pred)
+        elif (self.model_name == "tabtransformer" or self.model_name == "FTTransformer" or
+              self.model_name == "tabnet"):
             test_pred = self.model.predict(test_set)
             print_metrics(test_set[self.target_col], test_pred)
         elif (self.model_name == "swintransformer"):

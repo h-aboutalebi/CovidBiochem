@@ -37,17 +37,17 @@ parser.add_argument('--gradient_clip_val',
                     type=float,
                     default=0.0,
                     help='Gradient clipping value')
-parser.add_argument('--epochs', type=int, default=30, help='number of epochs')
+parser.add_argument('--epochs', type=int, default=150, help='number of epochs')  #30
 parser.add_argument('--early_stopping_patience',
                     type=int,
-                    default=30,
+                    default=100,
                     help='Number of epochs to wait before early stopping')
-parser.add_argument('-b', "--batch_size", type=int, default=128)
+parser.add_argument('-b', "--batch_size", type=int, default=256)  #128
 parser.add_argument('--checkpoints_save_top_k',
                     type=int,
                     default=0,
                     help='Number of best models to save')
-parser.add_argument('--lr', type=float, default=0.0004,
+parser.add_argument('--lr', type=float, default=0.00015,
                     help="Initial learning rate")  #0.0004
 parser.add_argument(
     '--auto_lr_find',
@@ -143,6 +143,10 @@ train_set, test_set = train_test_split(csv_handle.df,
                                        test_size=args.test_size,
                                        random_state=args.seed,
                                        stratify=csv_handle.df[args.target_col])
+
+# train_set[csv_handle.num_cols] = csv_handle.initilize_quantile_transformer(train_set[csv_handle.num_cols])
+# test_set[csv_handle.num_cols] = csv_handle.apply_quantile_transformer(test_set[csv_handle.num_cols])
+
 train_set, val_set = train_test_split(csv_handle.df,
                                       test_size=args.val_size,
                                       random_state=args.seed,
@@ -157,7 +161,7 @@ model = Model_select(model_name=args.model_name,
                      init_lr=args.lr,
                      seed=args.seed)
 
-model.create_model()
+model.create_model(cuda_n=args.cuda_n)
 model.train_model(train_set,
                   gradient_clip_val=args.gradient_clip_val,
                   epochs=args.epochs,
