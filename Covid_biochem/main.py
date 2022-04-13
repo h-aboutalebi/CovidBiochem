@@ -88,6 +88,11 @@ parser.add_argument(
     nargs='+',
     default=[
         #categorical features:
+        "was_ventilated",
+        "visit_concept_name",
+        "is_icu",
+        "gender_concept_name",
+        "agesplits",
         "to_patient_id",
         "covid19_statuses",
         "blood_pHbetween735and745",
@@ -100,6 +105,8 @@ parser.add_argument(
         "A1Cover65",
         "visit_start_datetime",
         #numerical features:
+        "HeartRateover100",
+        "length_of_stay",
         "invasive_vent_days",
         "45484_HemoglobinA1cHemoglobintotalinBlood",
         "332544_pHofArterialbloodadjustedtopatientsactualtemperature"
