@@ -72,7 +72,7 @@ parser.add_argument('--test_size',
                     help='test size for experiment')
 parser.add_argument('--val_size',
                     type=float,
-                    default=0.1,
+                    default=0.05,
                     help='validation size for experiment')
 parser.add_argument('--n_neighbors', type=int, default=5, help='KNN imputaor')
 parser.add_argument(

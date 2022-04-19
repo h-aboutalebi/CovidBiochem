@@ -28,7 +28,7 @@ class Model_select():
             self.model.set_params(seed=self.seed, tree_method='gpu_hist')
         elif (self.model_name == "catboost"):
             self.model = CatBoostClassifier(iterations=100,
-                                            learning_rate=0.35,
+                                            learning_rate=0.3,
                                             task_type="GPU",
                                             devices=kwargs["cuda_n"])
         elif (self.model_name == "tabtransformer" or self.model_name == "FTTransformer" or
