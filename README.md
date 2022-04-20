@@ -26,7 +26,7 @@ Currently we support the following models:
 
 For running the TabTransformer model with learning rate 0.00015 and batch size 256 and validation size 0.05 for 200 epochs, use the code bellow:
 
-```main.py --model tabtransformer --lr 0.00015 --batch_size 256 --epochs 200 --val_size 0.05```
+python3 ```main.py --model tabtransformer --lr 0.00015 --batch_size 256 --epochs 200 --val_size 0.05```
 
 The ```--useless_cols``` removes columns from csv file that should not be passed as an input for training model.
 
