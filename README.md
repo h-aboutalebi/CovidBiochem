@@ -12,14 +12,14 @@ The main file for doing prediction is ```main.py```.
 
 Currently we support the following models:
 
-1- [TabTransformer](https://arxiv.org/abs/2012.06678) by selecting: --model tabtransformer
+1- [TabTransformer](https://arxiv.org/abs/2012.06678) by selecting: ```--model tabtransformer```
 
-2- [FTTransformer](https://arxiv.org/pdf/2106.11959.pdf) by selecting: --model FTTransformer
+2- [FTTransformer](https://arxiv.org/pdf/2106.11959.pdf) by selecting: ```--model FTTransformer```
 
-3- [TabNet](https://arxiv.org/abs/1908.07442) by selecting: --model tabnet
+3- [TabNet](https://arxiv.org/abs/1908.07442) by selecting: ```--model tabnet```
 
-4- [CatBoost](https://arxiv.org/abs/1706.09516)
+4- [CatBoost](https://arxiv.org/abs/1706.09516) by selecting: ```--model catboost```
 
-5- [LightGBM](https://proceedings.neurips.cc/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf)
+5- [LightGBM](https://proceedings.neurips.cc/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf) by selecting: ```--model lightgbm```
 
-6- [XGBoost](https://arxiv.org/abs/1603.02754)
+6- [XGBoost](https://arxiv.org/abs/1603.02754) by selecting: ```--model XGBoost```
