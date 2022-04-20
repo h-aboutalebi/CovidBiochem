@@ -12,4 +12,5 @@ The main file for doing prediction is ```main.py```.
 
 Currently we support the following models:
 
-1- 
+1- [TabTransformer](https://arxiv.org/abs/2012.06678)
+2- [FTTransformer](https://arxiv.org/pdf/2106.11959.pdf)
