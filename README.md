@@ -23,3 +23,9 @@ Currently we support the following models:
 5- [LightGBM](https://proceedings.neurips.cc/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf) by selecting: ```--model lightgbm```
 
 6- [XGBoost](https://arxiv.org/abs/1603.02754) by selecting: ```--model XGBoost```
+
+For a simple run of selecting TabTransformer model with learning rate 0.00015 and batch size 256 and validation size 0.05 for 200 epochs:
+
+```main.py --model tabtransformer --lr 0.00015 --batch_size 256 --epochs 200 --val_size 0.05```
+
+
