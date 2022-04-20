@@ -24,8 +24,14 @@ Currently we support the following models:
 
 6- [XGBoost](https://arxiv.org/abs/1603.02754) by selecting: ```--model XGBoost```
 
-For a simple run of selecting TabTransformer model with learning rate 0.00015 and batch size 256 and validation size 0.05 for 200 epochs:
+For running the TabTransformer model with learning rate 0.00015 and batch size 256 and validation size 0.05 for 200 epochs, use the code bellow:
 
 ```main.py --model tabtransformer --lr 0.00015 --batch_size 256 --epochs 200 --val_size 0.05```
+
+The ```--useless_cols``` removes columns from csv file that should not be passed as an input for training model.
+
+You can also change the seed of the run by passing ```--seed```.
+
+
 
 
