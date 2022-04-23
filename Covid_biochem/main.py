@@ -79,7 +79,7 @@ parser.add_argument(
     '-t',
     '--target_col',
     type=str,
-    default="laststatus",
+    default="AcuteKidneyInjuryduringhospitalization",
     help='Target column to be used for prediction on Biochem.'
     'If your col name  has special character other than "_", remove them in the name')
 parser.add_argument(
@@ -104,6 +104,10 @@ parser.add_argument(
         "A1Cunder65",
         "A1Cover65",
         "visit_start_datetime",
+        "AcuteHepaticInjuryduringhospitalization",
+        "kidney_replacement_therapy",
+        "kidney_transplant",
+        "laststatus",
         #numerical features:
         "HeartRateover100",
         "length_of_stay",
