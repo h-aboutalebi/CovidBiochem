@@ -1,9 +1,6 @@
 # COVID-Net Biochem
 
-This code is for the paper **COVID-Net Biochem: An Explainability-driven Framework
-to Building Machine Learning Models for Predicting
-Survival and Kidney Injury of COVID-19 Patients from
-Clinical and Biochemistry Data**
+This code is for the paper **COVID-Net Biochem: An Explainability-driven Framework to Building Machine Learning Models for Predicting Survival and Kidney Injury of COVID-19 Patients from Clinical and Biochemistry Data**
 
 **Note: The COVID-Net models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVID-Net for self-diagnosis and seek help from your local health authorities.**
 
@@ -45,6 +42,12 @@ as a catalyst for clinical scientists, machine learning researchers, as well as 
 tists to develop innovative and trust-worthy clinical decision support solutions for helping
 clinicians around the world manage the continuing pandemic.
 © 2022 .
+
+<p align="center">
+	<img src="image/fig.png" alt="photo not available" width="70%" height="70%">
+	<br>
+	<em>Overview</em>
+</p>
 
 
 This code is for doing survival prediction and Acute Kidney Injury prediction of COVID-19 patients. For survival prediction, use ```main```  branch. For Acute Kidney Injury predictio, use ```hossein/kidney```  branch. The code automatically creates the benchmark dataset online.
