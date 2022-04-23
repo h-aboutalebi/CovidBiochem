@@ -46,7 +46,8 @@ clinicians around the world manage the continuing pandemic.
 <p align="center">
 	<img src="image/fig.png" alt="photo not available" width="70%" height="70%">
 	<br>
-	<em>Overview</em>
+	<em>Fig 1: Overview of the proposed explainability-driven framework for building machine
+learning models for clinical decision support.</em>
 </p>
 
 
