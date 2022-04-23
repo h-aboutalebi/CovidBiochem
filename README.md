@@ -56,24 +56,21 @@ learning models for clinical decision support.</em>
 <p align="center">
 	<img src="image/res1.png" alt="photo not available" width="70%" height="70%">
 	<br>
-	<em>Figure 2: Overview of the proposed explainability-driven framework for building machine
-learning models for clinical decision support.</em>
+	<em></em>
 </p>
 
 
 <p align="center">
 	<img src="image/res2.png" alt="photo not available" width="70%" height="70%">
 	<br>
-	<em>Figure 3: Overview of the proposed explainability-driven framework for building machine
-learning models for clinical decision support.</em>
+	<em></em>
 </p>
 
 
 <p align="center">
 	<img src="image/res3.png" alt="photo not available" width="70%" height="70%">
 	<br>
-	<em>Figure 4: Overview of the proposed explainability-driven framework for building machine
-learning models for clinical decision support.</em>
+	<em></em>
 </p>
 
 
