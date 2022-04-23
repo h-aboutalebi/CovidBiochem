@@ -1,7 +1,7 @@
 # COVID-Net Biochem
 
 <p align="center">
-	<img src="image/covidnetlogo.png" alt="photo not available" width="40%" height="40%">
+	<img src="image/covidnetlogo.png" alt="photo not available" width="20%" height="20%">
 	<br>
 	<em></em>
 </p>
