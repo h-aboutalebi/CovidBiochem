@@ -6,11 +6,14 @@
 	<em></em>
 </p>
 
+## About
+
 This code is for the paper **COVID-Net Biochem: An Explainability-driven Framework to Building Machine Learning Models for Predicting Survival and Kidney Injury of COVID-19 Patients from Clinical and Biochemistry Data**
+
 
 **Note: The COVID-Net models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVID-Net for self-diagnosis and seek help from your local health authorities.**
 
-**Link to COVID-Net portal: [here](https://alexswong.github.io/COVID-Net/)**
+**COVID-Net Biochem is core part of COVID-Net, a global open source, open access initiative dedicated to accelerating advancement in machine learning to aid front-line healthcare workers and clinical institutions around the world fighting the continuing pandemic. Link to COVID-Net portal: [here](https://alexswong.github.io/COVID-Net/)**
 
 **Recording to webinar on [How we built COVID-Net in 7 days with Gensynth](https://darwinai.news/fny)**
 
@@ -36,8 +39,7 @@ tures was designed and trained specifically for survival and kidney injury predi
 on the carefully selected clinical and biochemical markers. In the second “explainability-
 driven design refinement” phase, we harnessed explainability methods to not only gain a
 deeper understanding into the decision-making process of the individual models, but also
-identify the overall impact of the individual clinical and biochemical markers to identify po-
-tential biases. These explainability outcomes are further analyzed by a clinician with over
+identify the overall impact of the individual clinical and biochemical markers to identify potential biases. These explainability outcomes are further analyzed by a clinician with over
 eight years experience to gain a deeper understanding of clinical validity of decisions made.
 These explainability-driven insights gained alongside the associated clinical feedback are
 then leveraged to guide and revise the training policies and architectural design in an iter-
