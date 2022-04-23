@@ -87,6 +87,7 @@ learning models for clinical decision support.</em>
 ### Instruction to replicate results
 
 This code is for doing survival prediction and Acute Kidney Injury prediction of COVID-19 patients. For survival prediction, use ```main```  branch. For Acute Kidney Injury predictio, use ```kidney```  branch. The code automatically creates the benchmark dataset online.
+
 The raw dataset exists on ```Covid_biochem/pytorch_tabular_main/data/clinical_data.csv```
 
 The main file for doing prediction is ```main.py```.
@@ -106,6 +107,9 @@ Currently we support the following models:
 
 6- [XGBoost](https://arxiv.org/abs/1603.02754) by selecting: ```--model XGBoost```
 
+***The default value set for models in argparser should regenerate the results***
+
+###  Custom run
 For running the TabTransformer model with learning rate 0.00015 and batch size 256 and validation size 0.05 for 200 epochs, use the code bellow:
 
  ```python3 main.py --model tabtransformer --lr 0.00015 --batch_size 256 --epochs 200 --val_size 0.05```
