@@ -84,7 +84,10 @@ learning models for clinical decision support.</em>
 </p>
 
 
-This code is for doing survival prediction and Acute Kidney Injury prediction of COVID-19 patients. For survival prediction, use ```main```  branch. For Acute Kidney Injury predictio, use ```hossein/kidney```  branch. The code automatically creates the benchmark dataset online.
+### Instruction to replicate results
+
+This code is for doing survival prediction and Acute Kidney Injury prediction of COVID-19 patients. For survival prediction, use ```main```  branch. For Acute Kidney Injury predictio, use ```kidney```  branch. The code automatically creates the benchmark dataset online.
+The raw dataset exists on ```Covid_biochem/pytorch_tabular_main/data/clinical_data.csv```
 
 The main file for doing prediction is ```main.py```.
 ```main.py``` has argparser where you can set the model for prediction, change learning rate, select test size and other configs.
