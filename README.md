@@ -9,7 +9,7 @@ Clinical and Biochemistry Data**
 
 **Recording to webinar on [How we built COVID-Net in 7 days with Gensynth](https://darwinai.news/fny)**
 
-##Abstract
+## Abstract
 
 Ever since the declaration of COVID-19 as a pandemic by the World Health Organization
 (Pak et al., 2020) in 2020, the world has continued to struggle in controlling and contain-
