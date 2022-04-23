@@ -73,6 +73,14 @@ learning models for clinical decision support.</em>
 	<em></em>
 </p>
 
+### Explainability Results
+
+<p align="center">
+	<img src="image/explain.png" alt="photo not available" width="70%" height="70%">
+	<br>
+	<em></em>
+</p>
+
 
 This code is for doing survival prediction and Acute Kidney Injury prediction of COVID-19 patients. For survival prediction, use ```main```  branch. For Acute Kidney Injury predictio, use ```hossein/kidney```  branch. The code automatically creates the benchmark dataset online.
 
