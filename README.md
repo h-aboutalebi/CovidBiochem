@@ -4,6 +4,8 @@ This code is for the paper **COVID-Net Biochem: An Explainability-driven Framewo
 
 **Note: The COVID-Net models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVID-Net for self-diagnosis and seek help from your local health authorities.**
 
+**Link to COVID-Net portal: [here](https://alexswong.github.io/COVID-Net/)**
+
 **Recording to webinar on [How we built COVID-Net in 7 days with Gensynth](https://darwinai.news/fny)**
 
 ## Abstract
