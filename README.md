@@ -1,7 +1,7 @@
 # COVID-Net Biochem
 
 <p align="center">
-	<img src="image/covidnetlogo.png" alt="photo not available" width="20%" height="20%">
+	<img src="image/covidnetlogo.png" alt="photo not available" width="30%" height="30%">
 	<br>
 	<em></em>
 </p>
@@ -12,6 +12,13 @@ This code is for the paper **COVID-Net Biochem: An Explainability-driven Framewo
 
 
 **Note: The COVID-Net models provided here are intended to be used as reference models that can be built upon and enhanced as new data becomes available. They are currently at a research stage and not yet intended as production-ready models (not meant for direct clinical diagnosis), and we are working continuously to improve them as new data becomes available. Please do not use COVID-Net for self-diagnosis and seek help from your local health authorities.**
+
+<p align="center">
+	<img src="image/fig.png" alt="photo not available" width="120%" height="140%">
+	<br>
+	<em>Figure 1: Overview of the proposed explainability-driven framework for building machine
+learning models for clinical decision support.</em>
+</p>
 
 **COVID-Net Biochem is core part of COVID-Net, a global open source, open access initiative dedicated to accelerating advancement in machine learning to aid front-line healthcare workers and clinical institutions around the world fighting the continuing pandemic. Link to COVID-Net portal: [here](https://alexswong.github.io/COVID-Net/)**
 
@@ -52,13 +59,6 @@ as a catalyst for clinical scientists, machine learning researchers, as well as 
 tists to develop innovative and trust-worthy clinical decision support solutions for helping
 clinicians around the world manage the continuing pandemic.
 © 2022 .
-
-<p align="center">
-	<img src="image/fig.png" alt="photo not available" width="120%" height="140%">
-	<br>
-	<em>Figure 1: Overview of the proposed explainability-driven framework for building machine
-learning models for clinical decision support.</em>
-</p>
 
 ####  Dataset Description
 
