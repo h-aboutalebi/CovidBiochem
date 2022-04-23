@@ -52,7 +52,15 @@ clinicians around the world manage the continuing pandemic.
 learning models for clinical decision support.</em>
 </p>
 
-### Results
+####  Dataset Description
+
+In this section we provide a short overview of the dataset preparation process in constructing a benchmark dataset for COVID-19 patient survival and AKI prediction in the clinician-guided initial design phase of the proposed framework. The proposed dataset is built by carefully selecting clinical and biochemical markers based on clinical assessment  from a patient cohort curated by Stony Brook University [here](https://wiki.cancerimagingarchive.net/pages/viewpage.action?pageId=89096912). More specifically, the clinical and biochemical markers were collected from a patient cohort of 1336 COVID-19 positive patients, and consists of both categorical and numerical markers.  The clinical and biochemical markers include patient diagnosis information, laboratory test results, intubation status, oral temperature, symptoms at admission, as well as a set of derived biochemical markers from blood work.
+
+
+The raw dataset exists on ```Covid_biochem/pytorch_tabular_main/data/clinical_data.csv```
+
+
+#### Results
 
 
 <p align="center">
@@ -75,7 +83,7 @@ learning models for clinical decision support.</em>
 	<em></em>
 </p>
 
-### Explainability Results
+#### Explainability Results
 
 <p align="center">
 	<img src="image/explain.png" alt="photo not available" width="70%" height="70%">
@@ -83,12 +91,16 @@ learning models for clinical decision support.</em>
 	<em></em>
 </p>
 
+#### Contact
+
+If there are any technical questions after the README, FAQ, and past/current issues have been read, please post an issue or contact:
+
+* hossain.aboutalebi@gmail.com
+* mspavlova@uwaterloo.ca 
 
 ### Instruction to replicate results
 
 This code is for doing survival prediction and Acute Kidney Injury prediction of COVID-19 patients. For survival prediction, use ```main```  branch. For Acute Kidney Injury predictio, use ```kidney```  branch. The code automatically creates the benchmark dataset online.
-
-The raw dataset exists on ```Covid_biochem/pytorch_tabular_main/data/clinical_data.csv```
 
 The main file for doing prediction is ```main.py```.
 ```main.py``` has argparser where you can set the model for prediction, change learning rate, select test size and other configs.
@@ -109,7 +121,7 @@ Currently we support the following models:
 
 ***The default value set for models in argparser should regenerate the results***
 
-###  Custom run
+### Custom Run
 For running the TabTransformer model with learning rate 0.00015 and batch size 256 and validation size 0.05 for 200 epochs, use the code bellow:
 
  ```python3 main.py --model tabtransformer --lr 0.00015 --batch_size 256 --epochs 200 --val_size 0.05```
