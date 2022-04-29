@@ -9,7 +9,7 @@
 
 This code is for the paper **COVID-Net Biochem: An Explainability-driven Framework to Building Machine Learning Models for Predicting Survival and Kidney Injury of COVID-19 Patients from Clinical and Biochemistry Data** 
 
-**Link for the [paper](https://arxiv.org/pdf/2204.11210.pdf)**
+**Link to the [paper](https://arxiv.org/pdf/2204.11210.pdf)**
 
 
 <p align="center">
