@@ -109,19 +109,16 @@ If there are any technical questions after the README, FAQ, and past/current iss
 
 #### Citation
 
-```@article{
-  title={COVID-Net Biochem: An Explainability-driven Framework
-to Building Machine Learning Models for Predicting
-Survival and Kidney Injury of COVID-19 Patients from
-Clinical and Biochemistry Data},
-  author={Aboutalebi, Hossein
-and Pavlova, Maya and
-Shafiee , Mohammad Javad and
-Florea  , Adrian and
-Hryniowski , Andrew and Wong, Alexander},
-  journal={arXiv preprint arXiv:2204.11210},
-  year={2022}
-}```
+```
+@article{
+title={COVID-Net Biochem: An Explainability-driven Framework to Building Machine Learning Models for Predicting Survival and Kidney Injury of COVID-19 Patients from Clinical and Biochemistry Data},
+author={Aboutalebi, Hossein and Pavlova, Maya and Shafiee , Mohammad Javad and Florea  , Adrian and Hryniowski , Andrew and Wong, Alexander},
+journal={arXiv preprint arXiv:2204.11210},
+year={2022}
+}
+
+```
+
 
 ### Instruction to replicate results
 
