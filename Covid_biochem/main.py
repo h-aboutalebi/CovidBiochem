@@ -154,7 +154,7 @@ train_set, test_set = train_test_split(csv_handle.df,
 # train_set[csv_handle.num_cols] = csv_handle.initilize_quantile_transformer(train_set[csv_handle.num_cols])
 # test_set[csv_handle.num_cols] = csv_handle.apply_quantile_transformer(test_set[csv_handle.num_cols])
 
-train_set, val_set = train_test_split(csv_handle.df,
+train_set, val_set = train_test_split(train_set.df,
                                       test_size=args.val_size,
                                       random_state=args.seed,
                                       stratify=csv_handle.df[args.target_col])
