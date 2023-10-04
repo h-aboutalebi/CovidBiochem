@@ -95,7 +95,7 @@ The raw dataset exists on ```Covid_biochem/pytorch_tabular_main/data/clinical_da
 #### Explainability Results
 
 <p align="center">
-	<img src="image/explai.png" alt="photo not available" width="70%" height="70%">
+	<img src="image/explain.png" alt="photo not available" width="70%" height="70%">
 	<br>
 	<em></em>
 </p>
