@@ -3,13 +3,13 @@ import os
 import argparse
 import logging
 import datetime
+import numpy as np
 
 from sklearn.model_selection import train_test_split
 from models_parent.model_select import Model_select
 from utility.file_manager import File_Manager
 from utility.utils import seed_everything
 from data_preprocess.csv_handler import CSVHandler
-
 logger = logging.getLogger(__name__)
 parser = argparse.ArgumentParser(description='Covid-Net BioChem')
 dirname = os.path.dirname(__file__)
@@ -23,37 +23,39 @@ parser.add_argument('--csv_path',
                     default=os.path.join(dirname,
                                          "pytorch_tabular_main/data/clinical_data.csv"),
                     help='path of csv file for BioChem')
-parser.add_argument('--cuda_n', type=str, default="3", help='random seed (default: 4)')
-parser.add_argument('--seed', type=int, default=1111, help='random seed (default: 1111)')
+parser.add_argument('--cuda_n', type=str, default="3",
+                    help='random seed (default: 4)')
+parser.add_argument('--seed', type=int, default=1112,
+                    help='random seed (default: 1111)')
 
 # *********************************** Model Setting **********************************************
 parser.add_argument(
     '-m',
     '--model_name',
     type=str,
-    default="lightgbm",
-    help='Available Model: lightgbm, tabtransformer, XGBoost, FTTransformer')
+    default="XGBoost",
+    help='Available Model: logistic, randomforest, lightgbm, tabtransformer, XGBoost, FTTransformer, catboost, tabnet')
 parser.add_argument('--gradient_clip_val',
                     type=float,
                     default=0.0,
                     help='Gradient clipping value')
-parser.add_argument('--epochs', type=int, default=150, help='number of epochs')  #30
+parser.add_argument('--epochs', type=int, default=150,
+                    help='number of epochs')  # 30
 parser.add_argument('--early_stopping_patience',
                     type=int,
                     default=100,
                     help='Number of epochs to wait before early stopping')
-parser.add_argument('-b', "--batch_size", type=int, default=256)  #128
+parser.add_argument('-b', "--batch_size", type=int, default=256)  # 128
 parser.add_argument('--checkpoints_save_top_k',
                     type=int,
                     default=0,
                     help='Number of best models to save')
 parser.add_argument('--lr', type=float, default=0.00015,
-                    help="Initial learning rate")  #0.0004
+                    help="Initial learning rate")  # 0.0004
 parser.add_argument(
     '--auto_lr_find',
     action="store_true",
-    help=
-    'Runs a learning rate finder algorithm (see this paper) when calling trainer.tune(), to find optimal initial learning rate.'
+    help='Runs a learning rate finder algorithm (see this paper) when calling trainer.tune(), to find optimal initial learning rate.'
 )
 
 # *********************************** Optimizer Setting **********************************************
@@ -61,8 +63,7 @@ parser.add_argument(
     '--lr_scheduler',
     type=str,
     default=None,
-    help=
-    'The name of the LearningRateScheduler to use, if any, from [torch.optim.lr_scheduler](https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate). If None, will not use any scheduler. Defaults to `None`'
+    help='The name of the LearningRateScheduler to use, if any, from [torch.optim.lr_scheduler](https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate). If None, will not use any scheduler. Defaults to `None`'
 )
 
 # *********************************** Dataset Setting ********************************************
@@ -87,12 +88,12 @@ parser.add_argument(
     '--useless_cols',
     nargs='+',
     default=[
-        #categorical features:
+        # categorical features:
         "was_ventilated",
         "visit_concept_name",
         "is_icu",
-        "gender_concept_name",
-        "agesplits",
+        # "gender_concept_name",
+        # "agesplits",
         "to_patient_id",
         "covid19_statuses",
         "blood_pHbetween735and745",
@@ -104,7 +105,7 @@ parser.add_argument(
         "A1Cunder65",
         "A1Cover65",
         "visit_start_datetime",
-        #numerical features:
+        # numerical features:
         "HeartRateover100",
         "length_of_stay",
         "invasive_vent_days",
@@ -114,18 +115,19 @@ parser.add_argument(
     help='Useless columns to be removed for prediction on Biochem.')
 
 args = parser.parse_args()
-seed_everything(args.seed)
 
 # *********************************** Logging Config *********************************************
-current_time = (str(datetime.datetime.now()).replace(" ", "#")).replace(":", "-")
+current_time = (str(datetime.datetime.now()).replace(
+    " ", "#")).replace(":", "-")
 output_path = args.output_path
 file_path_results = output_path + "/" + current_time
 File_Manager.set_file_path(file_path_results)
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 os.mkdir(file_path_results)
-logging.basicConfig(level=logging.DEBUG, filename=file_path_results + "/log.txt")
-logging.getLogger().addHandler(logging.StreamHandler())
+logging.basicConfig(level=logging.DEBUG,
+                    filename=file_path_results + "/log.txt")
+logger.addHandler(logging.StreamHandler())
 
 header = "===================== Experiment configuration ========================"
 logger.info(header)
@@ -137,46 +139,65 @@ for k in args_keys:
 logger.info("=" * len(header))
 
 # *********************************** Environment Building ********************************************
-device = torch.device("cuda:" + args.cuda_n if torch.cuda.is_available() else "cpu")
+
+best_final_result = []
+device = torch.device(
+    "cuda:" + args.cuda_n if torch.cuda.is_available() else "cpu")
 os.environ["CUDA_VISIBILE_DEVICES"] = args.cuda_n
 logger.info("device is set for: {}".format(device))
-
+seed_everything(args.seed)
 csv_file = args.csv_path
 csv_handle = CSVHandler(csv_file,
                         useless_cols_list=args.useless_cols,
                         target_col=args.target_col,
                         n_neighbors=args.n_neighbors)
-train_set, test_set = train_test_split(csv_handle.df,
-                                       test_size=args.test_size,
-                                       random_state=args.seed,
-                                       stratify=csv_handle.df[args.target_col])
+main_train_set, test_set = train_test_split(csv_handle.df,
+                                            test_size=args.test_size,
+                                            random_state=args.seed,
+                                            stratify=csv_handle.df[args.target_col])
 
 # train_set[csv_handle.num_cols] = csv_handle.initilize_quantile_transformer(train_set[csv_handle.num_cols])
 # test_set[csv_handle.num_cols] = csv_handle.apply_quantile_transformer(test_set[csv_handle.num_cols])
 
-train_set, val_set = train_test_split(train_set.df,
-                                      test_size=args.val_size,
-                                      random_state=args.seed,
-                                      stratify=csv_handle.df[args.target_col])
-num_classes = csv_handle.df[args.target_col].nunique()
-model = Model_select(model_name=args.model_name,
-                     num_col_names=csv_handle.num_cols,
-                     categorical_feature=csv_handle.cat_cols,
-                     target_col=args.target_col,
-                     num_classes=num_classes,
-                     lr_scheduler=args.lr_scheduler,
-                     init_lr=args.lr,
-                     seed=args.seed)
+results = {
+    "confusion matrix": [],
+    "Accuracy": [],
+    "precision": [],
+    "recall": [],
+    "F1 score": []}
+for seed in [1, 2, 3, 4, 5]:
+    seed_everything(seed)
+    train_set, val_set = train_test_split(main_train_set,
+                                          test_size=args.val_size,
+                                          random_state=seed,
+                                          stratify=main_train_set[args.target_col])
+    num_classes = csv_handle.df[args.target_col].nunique()
+    model = Model_select(model_name=args.model_name,
+                         num_col_names=csv_handle.num_cols,
+                         categorical_feature=csv_handle.cat_cols,
+                         target_col=args.target_col,
+                         num_classes=num_classes,
+                         lr_scheduler=args.lr_scheduler,
+                         init_lr=args.lr,
+                         seed=args.seed)
 
-model.create_model(cuda_n=args.cuda_n)
-model.train_model(train_set,
-                  gradient_clip_val=args.gradient_clip_val,
-                  epochs=args.epochs,
-                  batch_size=args.batch_size,
-                  early_stopping_patience=args.early_stopping_patience,
-                  checkpoints_save_top_k=args.checkpoints_save_top_k,
-                  auto_lr_find=args.auto_lr_find,
-                  cuda_n=args.cuda_n,
-                  seed=args.seed,
-                  val_set=val_set)
-test_pred = model.test_model(test_set)
+    model.create_model()
+    model.train_model(train_set,
+                      gradient_clip_val=args.gradient_clip_val,
+                      epochs=args.epochs,
+                      batch_size=args.batch_size,
+                      early_stopping_patience=args.early_stopping_patience,
+                      checkpoints_save_top_k=args.checkpoints_save_top_k,
+                      auto_lr_find=args.auto_lr_find,
+                      cuda_n=args.cuda_n,
+                      seed=args.seed,
+                      val_set=val_set)
+    test_pred = model.test_model(test_set)
+    for key in test_pred.keys():
+        results[key].append(test_pred[key])
+for key in results.keys():
+    if (key == "confusion matrix"):
+        results[key] = np.mean(np.stack(results[key], axis=0), axis=0)
+    else:
+        results[key] = np.mean(results[key])
+    print("Final results: {}: {}".format(key, results[key]))
