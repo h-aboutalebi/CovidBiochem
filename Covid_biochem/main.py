@@ -150,7 +150,7 @@ csv_handle = CSVHandler(csv_file,
                         useless_cols_list=args.useless_cols,
                         target_col=args.target_col,
                         n_neighbors=args.n_neighbors)
-train_set, test_set = train_test_split(csv_handle.df,
+main_train_set, test_set = train_test_split(csv_handle.df,
                                        test_size=args.test_size,
                                        random_state=args.seed,
                                        stratify=csv_handle.df[args.target_col])
@@ -158,10 +158,10 @@ train_set, test_set = train_test_split(csv_handle.df,
 # train_set[csv_handle.num_cols] = csv_handle.initilize_quantile_transformer(train_set[csv_handle.num_cols])
 # test_set[csv_handle.num_cols] = csv_handle.apply_quantile_transformer(test_set[csv_handle.num_cols])
 
-train_set, val_set = train_test_split(train_set,
+train_set, val_set = train_test_split(main_train_set,
                                       test_size=args.val_size,
                                       random_state=args.seed,
-                                      stratify=train_set[args.target_col])
+                                      stratify=main_train_set[args.target_col])
 num_classes = csv_handle.df[args.target_col].nunique()
 model = Model_select(model_name=args.model_name,
                      num_col_names=csv_handle.num_cols,
